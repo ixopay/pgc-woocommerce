@@ -1,0 +1,18 @@
+{
+  "name": "payment-gateway-cloud/payment-gateway-cloud-woocommerce",
+  "description": "",
+  "type": "wordpress-plugin",
+  "license": "",
+  "require": {
+    "php": ">=7.1",
+    "psr/log": "^1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "PaymentGatewayCloud\\Client\\": "./classes/client/"
+    }
+  },
+  "config": {
+    "vendor-dir": "classes/vendor"
+  }
+}
