@@ -1,6 +1,6 @@
 # Release Notes
 
-## v1.0.0 (2019-08-29)
+## v1.0.0 (2019-08-30)
 ### Added
 - Build script and [README](README.md) with instructions
 - [CHANGELOG](CHANGELOG.md)
