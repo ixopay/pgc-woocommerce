@@ -21,9 +21,4 @@ final class WC_PaymentGatewayCloud_Provider
     {
         require_once PAYMENT_GATEWAY_CLOUD_EXTENSION_BASEDIR . 'classes/vendor/autoload.php';
     }
-
-    public static function setupClient()
-    {
-        \PaymentGatewayCloud\Client\Client::setApiUrl(PAYMENT_GATEWAY_CLOUD_EXTENSION_URL);
-    }
 }
