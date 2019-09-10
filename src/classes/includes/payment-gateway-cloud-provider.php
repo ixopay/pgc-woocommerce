@@ -4,6 +4,9 @@ final class WC_PaymentGatewayCloud_Provider
 {
     public static function paymentMethods()
     {
+        /**
+         * Comment/disable adapters that are not applicable
+         */
         return [
             'WC_PaymentGatewayCloud_CreditCard',
             'WC_PaymentGatewayCloud_CreditCard_Amex',

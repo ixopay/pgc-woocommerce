@@ -1,6 +1,9 @@
 # Release Notes
 
-## Unreleased
+## v1.2.0 (2019-09-10)
+### Added
+- [README](README.md) note on enabling/disabling additional adapters
+- Enable seamless integration by setting integration key
 
 ## v1.1.0 (2019-09-03)
 ### Added
