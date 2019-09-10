@@ -26,7 +26,7 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
         $this->id = PAYMENT_GATEWAY_CLOUD_EXTENSION_UID_PREFIX . $this->id;
         $this->method_description = PAYMENT_GATEWAY_CLOUD_EXTENSION_NAME . ' ' . $this->method_title . ' payments.';
 
-        $this->has_fields = false;
+        $this->has_fields = isset($_GET['pay_for_order']);
 
         $this->init_form_fields();
         $this->init_settings();
@@ -36,7 +36,8 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
 
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
         add_action('wp_enqueue_scripts', function () {
-            wp_register_script('payment_js', PAYMENT_GATEWAY_CLOUD_EXTENSION_URL . 'js/integrated/payment.min.js', [], null, false);
+            wp_register_script('payment_js', $this->get_option('apiHost') . 'js/integrated/payment.min.js', [], PAYMENT_GATEWAY_CLOUD_EXTENSION_VERSION, false);
+            wp_register_script('payment_gateway_cloud_js', plugins_url('/paymentgatewaycloud/assets/js/payment-gateway-cloud.js'), [], PAYMENT_GATEWAY_CLOUD_EXTENSION_VERSION, false);
         }, 999);
         add_action('woocommerce_api_wc_' . $this->id, [$this, 'process_callback']);
         add_filter('script_loader_tag', function ($tag, $handle) {
@@ -51,15 +52,18 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
     {
         global $woocommerce;
 
+        /**
+         * order & user
+         */
         $this->order = new WC_Order($orderId);
-        $this->order->update_status('pending', __('Awaiting cheque payment', 'woocommerce'));
-
+        $this->order->update_status('pending', __('Awaiting payment', 'woocommerce'));
         $this->user = $this->order->get_user();
 
+        /**
+         * gateway client
+         */
         WC_PaymentGatewayCloud_Provider::autoloadClient();
-
         PaymentGatewayCloud\Client\Client::setApiUrl($this->get_option('apiHost'));
-
         $client = new PaymentGatewayCloud\Client\Client(
             $this->get_option('apiUser'),
             $this->get_option('apiPassword'),
@@ -67,6 +71,9 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
             $this->get_option('sharedSecret')
         );
 
+        /**
+         * gateway customer
+         */
         $customer = new PaymentGatewayCloud\Client\Data\Customer();
         $customer
             ->setBillingAddress1($this->order->get_billing_address_1())
@@ -98,28 +105,61 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
                 ->setShippingState($this->order->get_shipping_state());
         }
 
+        /**
+         * debit
+         */
         $debit = new \PaymentGatewayCloud\Client\Transaction\Debit();
-        $debit->setCustomer($customer)
-            ->setExtraData($this->extraData3DS($this->order))
-            ->setCallbackUrl($this->callbackUrl)
-            ->setTransactionId($orderId)
+        $debit->setTransactionId($orderId)
             ->setAmount(floatval($this->order->get_total()))
             ->setCurrency($this->order->get_currency())
+            ->setCustomer($customer)
+            ->setExtraData($this->extraData3DS())
+            ->setCallbackUrl($this->callbackUrl)
             ->setCancelUrl(wc_get_checkout_url())
             ->setSuccessUrl($this->get_return_url($this->order))
             ->setErrorUrl($this->get_return_url($this->order));
 
-        $redirect = $this->get_return_url($this->order);
+        /**
+         * integration key is set -> seamless
+         * proceed to pay now page or apply submitted transaction token
+         */
+        if ($this->get_option('integrationKey')) {
+            $token = !empty($this->get_post_data()['token']) ? $this->get_post_data()['token'] : null;
+            if (!$token) {
+                return [
+                    'result' => 'success',
+                    'redirect' => $this->order->get_checkout_payment_url(false),
+                ];
+            }
+            $debit->setTransactionToken($token);
+        }
+
+        /**
+         * transaction
+         */
         $result = $client->debit($debit);
+
         if ($result->isSuccess()) {
             $woocommerce->cart->empty_cart();
 
-            if ($result->getReturnType() == \PaymentGatewayCloud\Client\Transaction\Result::RETURN_TYPE_REDIRECT) {
-                $redirect = $result->getRedirectUrl();
+            $gatewayReferenceId = $result->getReferenceId();
+            if ($result->getReturnType() == PaymentGatewayCloud\Client\Transaction\Result::RETURN_TYPE_ERROR) {
+                $errors = $result->getErrors();
+                $this->order->update_status('failed', __('Payment failed or was declined', 'woocommerce'));
+            } elseif ($result->getReturnType() == PaymentGatewayCloud\Client\Transaction\Result::RETURN_TYPE_REDIRECT) {
+                return [
+                    'result' => 'success',
+                    'redirect' => $result->getRedirectUrl(),
+                ];
+            } elseif ($result->getReturnType() == PaymentGatewayCloud\Client\Transaction\Result::RETURN_TYPE_PENDING) {
+                // payment is pending, wait for callback to complete
+            } elseif ($result->getReturnType() == PaymentGatewayCloud\Client\Transaction\Result::RETURN_TYPE_FINISHED) {
+                // seamless will finish here
+                $this->order->payment_complete();
             }
             return [
                 'result' => 'success',
-                'redirect' => $redirect,
+                'redirect' => $this->get_return_url($this->order),
             ];
         }
 
@@ -198,33 +238,74 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
                 'description' => 'Shared Secret',
                 'default' => '',
             ],
+            'integrationKey' => [
+                'title' => 'Integration Key',
+                'type' => 'text',
+                'label' => 'Integration Key',
+                'description' => 'Integration Key',
+                'default' => '',
+            ],
         ];
     }
 
     public function payment_fields()
     {
         wp_enqueue_script('payment_js');
-        echo '<div>
-                    <label for="card_holder">Card holder</label>
-                    <input type="text" id="card_holder" name="card_holder" />
-                </div>
-                <div>
-                    <label for="number_div">Card number</label>
-                    <div id="number_div" style="height: 35px; width: 200px;"></div>
-                </div>
-                <div>
-                    <label for="cvv_div">CVV</label>
-                    <div id="cvv_div" style="height: 35px; width: 200px;"></div>
-                </div>
-            
-                <div>
-                    <label for="exp_month">Month</label>
-                    <input type="text" id="exp_month" name="exp_month" />
-                </div>
-                <div>
-                    <label for="exp_year">Year</label>
-                    <input type="text" id="exp_year" name="exp_year" />
-                </div>';
+        wp_enqueue_script('payment_gateway_cloud_js');
+        $years = range(date('Y'), date('Y') + 50);
+        $yearSelect = '';
+        foreach ($years as $year) {
+            $yearSelect .= '<option>' . $year . '</option>';
+        }
+        echo '<script>window.integrationKey="' . $this->get_option('integrationKey') . '";</script>
+        <div id="payment_gateway_cloud_seamless">
+        <div id="payment_gateway_cloud_errors"></div>
+        <input type="hidden" id="payment_gateway_cloud_token" name="token">
+        
+        <div class="form-row form-row-wide">
+            <label for="payment_gateway_cloud_seamless_card_holder">Card holder</label>
+            <div class="woocommerce-input-wrapper">
+            <input type="text" class="input-text " id="payment_gateway_cloud_seamless_card_holder">
+            </div>
+        </div>
+        <div class="form-row form-row-wide">
+            <label for="payment_gateway_cloud_seamless_card_number">Card number</label>
+            <div class="woocommerce-input-wrapper" style="">
+            <div id="payment_gateway_cloud_seamless_card_number" class="input-text" style="padding: 0; width: 100%;"></div>
+            </div>
+        </div>
+        <div class="form-row form-row-wide">
+            <label for="payment_gateway_cloud_seamless_cvv">CVV</label>
+            <div class="woocommerce-input-wrapper" style="">
+            <div id="payment_gateway_cloud_seamless_cvv" class="input-text " style="padding: 0; width: 100%;"></div>
+            </div>
+        </div>
+        <div class="form-row form-row-wide">
+            <label for="payment_gateway_cloud_seamless_expiry_month">Month</label>
+            <div class="woocommerce-input-wrapper">
+            <select type="text" class="input-text " id="payment_gateway_cloud_seamless_expiry_month">
+              <option>01</option>
+              <option>02</option>
+              <option>03</option>
+              <option>04</option>
+              <option>05</option>
+              <option>06</option>
+              <option>07</option>
+              <option>08</option>
+              <option>09</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+            </select>
+            </div>
+        </div>
+        <div class="form-row form-row-wide">
+            <label for="payment_gateway_cloud_seamless_expiry_year">Year</label>
+            <div class="woocommerce-input-wrapper">
+            <select type="text" class="input-text " id="payment_gateway_cloud_seamless_expiry_year">' . $yearSelect . '</select>
+            </div>
+        </div>
+        </div>';
     }
 
     /**

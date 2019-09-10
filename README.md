@@ -9,6 +9,7 @@
 ## Build
 
 * Clone or download the source from this repository.
+* Comment/disable adapters in `src/classes/includes/payment-gateway-cloud-provider.php` - see `paymentMethods()` method.
 * Run the build script to apply desired branding and create a zip file ready for distribution:
 ```shell script
 php build.php gateway.mypaymentprovider.com "My Payment Provider"
