@@ -1,5 +1,12 @@
 # Release Notes
 
+## v1.3.0 (2019-09-30)
+### Added
+- Preauthorize/Capture/Void transaction request option
+- Plugin author, WooCommerce minimum & tested up to version
+### Changed
+- Unified payment failure response
+
 ## v1.2.0 (2019-09-10)
 ### Added
 - [README](README.md) note on enabling/disabling additional adapters

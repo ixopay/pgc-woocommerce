@@ -2,9 +2,11 @@
 Contributors: Payment Gateway Cloud
 Tags: Credit Card, e-commerce, payment, checkout
 Requires at least: 4.9
-Tested up to: 5.0.4
+Tested up to: 5.2.3
 Requires PHP: 7.1
 Stable tag: X.Y.Z
+WC requires at least: 3.6.0
+WC tested up to: 3.7.0
 
 Payment Gateway Cloud WooCommerce Extension
 

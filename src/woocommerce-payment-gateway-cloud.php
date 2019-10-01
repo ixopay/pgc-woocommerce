@@ -3,6 +3,9 @@
  * Plugin Name: WooCommerce Payment Gateway Cloud Extension
  * Description: Payment Gateway Cloud for WooCommerce
  * Version: X.Y.Z
+ * Author: Payment Gateway Cloud
+ * WC requires at least: 3.6.0
+ * WC tested up to: 3.7.0
  */
 if (!defined('ABSPATH')) {
     exit;
