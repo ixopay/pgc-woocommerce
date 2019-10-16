@@ -1,5 +1,10 @@
 # Release Notes
 
+## v1.4.2 (2019-10-16)
+### Fixed
+- Decode HTML entities in stored password option within callbacks as well
+- Explicitly re-read transaction request type option
+
 ## v1.4.0 (2019-10-16)
 ### Changed
 - Display error to user on any payment errors
