@@ -66,7 +66,7 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
         PaymentGatewayCloud\Client\Client::setApiUrl($this->get_option('apiHost'));
         $client = new PaymentGatewayCloud\Client\Client(
             $this->get_option('apiUser'),
-            $this->get_option('apiPassword'),
+            htmlspecialchars_decode($this->get_option('apiPassword')),
             $this->get_option('apiKey'),
             $this->get_option('sharedSecret')
         );
