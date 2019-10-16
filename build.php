@@ -2,7 +2,7 @@
 /**
  * extension source version
  */
-$version = '1.4.0';
+$version = '1.4.2';
 
 /**
  * dist filename
