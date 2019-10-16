@@ -1,5 +1,11 @@
 # Release Notes
 
+## v1.4.0 (2019-10-16)
+### Changed
+- Display error to user on any payment errors
+### Fixed
+- Decode HTML entities in stored password option 
+
 ## v1.3.0 (2019-09-30)
 ### Added
 - Preauthorize/Capture/Void transaction request option
