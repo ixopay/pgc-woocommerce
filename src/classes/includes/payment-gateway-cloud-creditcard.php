@@ -191,6 +191,7 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
     private function paymentFailedResponse()
     {
         $this->order->update_status('failed', __('Payment failed or was declined', 'woocommerce'));
+        wc_add_notice(__('Payment failed or was declined', 'woocommerce'), 'error');
         return [
             'result' => 'error',
             'redirect' => $this->get_return_url($this->order),
