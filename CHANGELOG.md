@@ -7,6 +7,7 @@
 - Hide all payment gateways except selected gateway within order
 ### Fixed
 - Seamless checkout sends incorrect token if more than one seamless payment option is available
+- Gateway client 7.3 compatibility: remove redundant filter_var FILTER_VALIDATE_URL flags
 
 ## v1.4.2 (2019-10-16)
 ### Fixed
