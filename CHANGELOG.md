@@ -1,5 +1,14 @@
 # Release Notes
 
+## v1.5.0 (2019-10-17)
+### Changed
+- Remove redundant transaction request option read
+- Remove incorrect payment complete call on seamless finish
+- Hide all payment gateways except selected gateway within order
+### Fixed
+- Seamless checkout sends incorrect token if more than one seamless payment option is available
+- Gateway client 7.3 compatibility: remove redundant filter_var FILTER_VALIDATE_URL flags
+
 ## v1.4.2 (2019-10-16)
 ### Fixed
 - Decode HTML entities in stored password option within callbacks as well
