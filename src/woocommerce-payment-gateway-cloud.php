@@ -35,4 +35,10 @@ add_action('plugins_loaded', function () {
         }
         return $methods;
     }, 0);
+
+    add_filter('woocommerce_checkout_before_customer_details', function(){
+        if(!empty($_GET['gateway_return_result']) && $_GET['gateway_return_result'] == 'error') {
+            wc_print_notice(__('Payment failed or was declined', 'woocommerce'), 'error');
+        }
+    }, 0, 0);
 });

@@ -1,5 +1,9 @@
 # Release Notes
 
+## Unreleased
+### Changed
+- Add result parameter to error return url 
+
 ## v1.5.0 (2019-10-17)
 ### Changed
 - Remove redundant transaction request option read

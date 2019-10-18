@@ -144,7 +144,7 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
             ->setCallbackUrl($this->callbackUrl)
             ->setCancelUrl(wc_get_checkout_url())
             ->setSuccessUrl($this->get_return_url($this->order))
-            ->setErrorUrl($this->get_return_url($this->order));
+            ->setErrorUrl(add_query_arg(['gateway_return_result' => 'error'], wc_get_checkout_url()));
 
         /**
          * integration key is set -> seamless
