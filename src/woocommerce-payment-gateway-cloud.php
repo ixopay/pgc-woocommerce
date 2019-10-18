@@ -37,9 +37,12 @@ add_action('plugins_loaded', function () {
     }, 0);
 
     // add_filter('woocommerce_before_checkout_form', function(){
-    add_filter('the_content', function(){
-        if(!empty($_GET['gateway_return_result']) && $_GET['gateway_return_result'] == 'error') {
-            wc_print_notice(__('Payment failed or was declined', 'woocommerce'), 'error');
+    add_filter('the_content', function($content){
+        if(is_checkout_pay_page()) {
+            if(!empty($_GET['gateway_return_result']) && $_GET['gateway_return_result'] == 'error') {
+                wc_print_notice(__('Payment failed or was declined', 'woocommerce'), 'error');
+            }
         }
-    }, 0, 0);
+        return $content;
+    }, 0, 1);
 });
