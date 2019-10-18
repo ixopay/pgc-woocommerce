@@ -3,6 +3,8 @@
 ## Unreleased
 ### Changed
 - Add result parameter to error return url 
+- Unique orderId
+- Set payment status more explicit
 
 ## v1.5.0 (2019-10-17)
 ### Changed

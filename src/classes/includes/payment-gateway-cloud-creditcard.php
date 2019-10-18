@@ -64,6 +64,20 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
         return $available_gateways;
     }
 
+    private function encodeOrderId($orderId)
+    {
+        return $orderId . '-' . date('YmdHis') . substr(sha1(uniqid()), 0, 10);
+    }
+
+    private function decodeOrderId($orderId)
+    {
+        if (!strpos($orderId, '-') === false) {
+            return $orderId;
+        }
+
+        return substr($orderId, 0, strrpos($orderId, '-'));
+    }
+
     public function process_payment($orderId)
     {
         global $woocommerce;
@@ -136,7 +150,7 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
                 break;
         }
 
-        $transaction->setTransactionId($orderId)
+        $transaction->setTransactionId($this->encodeOrderId($orderId))
             ->setAmount(floatval($this->order->get_total()))
             ->setCurrency($this->order->get_currency())
             ->setCustomer($customer)
@@ -227,9 +241,23 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
 
         $client->validateCallbackWithGlobals();
         $callbackResult = $client->readCallback(file_get_contents('php://input'));
-        $this->order = new WC_Order($callbackResult->getTransactionId());
+        $this->order = new WC_Order($this->decodeOrderId($callbackResult->getTransactionId()));
         if ($callbackResult->getResult() == \PaymentGatewayCloud\Client\Callback\Result::RESULT_OK) {
-            $this->order->payment_complete();
+            switch ($callbackResult->getTransactionType()) {
+                case \PaymentGatewayCloud\Client\Callback\Result::TYPE_DEBIT:
+                    $this->order->payment_complete();
+                    break;
+                case \PaymentGatewayCloud\Client\Callback\Result::TYPE_CAPTURE:
+                    $this->order->payment_complete();
+                    break;
+                case \PaymentGatewayCloud\Client\Callback\Result::TYPE_VOID:
+                    $this->order->update_status('cancelled', __('Void', 'woocommerce'));
+                    break;
+
+                case \PaymentGatewayCloud\Client\Callback\Result::TYPE_PREAUTHORIZE:
+                    $this->order->update_status('on-hold', __('Awaiting capture/void', 'woocommerce'));
+                    break;
+            }
         }
 
         die("OK");
