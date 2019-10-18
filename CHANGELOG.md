@@ -1,5 +1,12 @@
 # Release Notes
 
+## Unreleased
+### Changed
+- Error return url redirect to checkout page with error message
+- Set payment status more explicitly
+- Unique order IDs in transaction
+- Handle Void/Capture postback
+
 ## v1.5.0 (2019-10-17)
 ### Changed
 - Remove redundant transaction request option read
