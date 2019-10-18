@@ -258,6 +258,14 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
                     $this->order->update_status('on-hold', __('Awaiting capture/void', 'woocommerce'));
                     break;
             }
+        } elseif ($callbackResult->getResult() == \PaymentGatewayCloud\Client\Callback\Result::RESULT_ERROR) {
+            switch ($callbackResult->getTransactionType()) {
+                case \PaymentGatewayCloud\Client\Callback\Result::TYPE_DEBIT:
+                case \PaymentGatewayCloud\Client\Callback\Result::TYPE_CAPTURE:
+                case \PaymentGatewayCloud\Client\Callback\Result::TYPE_VOID:
+                    $this->order->update_status('failed', __('Error', 'woocommerce'));
+                    break;
+            }
         }
 
         die("OK");
