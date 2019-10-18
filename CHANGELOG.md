@@ -2,9 +2,10 @@
 
 ## Unreleased
 ### Changed
-- Add result parameter to error return url 
-- Unique orderId
-- Set payment status more explicit
+- Error return url redirect to checkout page with error message
+- Set payment status more explicitly
+- Unique order IDs in transaction
+- Handle Void/Capture postback
 
 ## v1.5.0 (2019-10-17)
 ### Changed

@@ -71,11 +71,24 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
 
     private function decodeOrderId($orderId)
     {
-        if (!strpos($orderId, '-') === false) {
+        if (strpos($orderId, '-') === false) {
             return $orderId;
         }
 
-        return substr($orderId, 0, strrpos($orderId, '-'));
+        $orderIdParts = explode('-', $orderId);
+
+        if(count($orderIdParts) === 2) {
+            $orderId = $orderIdParts[0];
+        }
+
+        /**
+         * void/capture will prefix the transaction id
+         */
+        if(count($orderIdParts) === 3) {
+            $orderId = $orderIdParts[1];
+        }
+
+        return $orderId;
     }
 
     public function process_payment($orderId)
@@ -158,7 +171,7 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
             ->setCallbackUrl($this->callbackUrl)
             ->setCancelUrl(wc_get_checkout_url())
             ->setSuccessUrl($this->get_return_url($this->order))
-            ->setErrorUrl(add_query_arg(['gateway_return_result' => 'error'], wc_get_checkout_url()));
+            ->setErrorUrl(add_query_arg(['gateway_return_result' => 'error'], $this->order->get_checkout_payment_url(false)));
 
         /**
          * integration key is set -> seamless
@@ -245,15 +258,12 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
         if ($callbackResult->getResult() == \PaymentGatewayCloud\Client\Callback\Result::RESULT_OK) {
             switch ($callbackResult->getTransactionType()) {
                 case \PaymentGatewayCloud\Client\Callback\Result::TYPE_DEBIT:
-                    $this->order->payment_complete();
-                    break;
                 case \PaymentGatewayCloud\Client\Callback\Result::TYPE_CAPTURE:
                     $this->order->payment_complete();
                     break;
                 case \PaymentGatewayCloud\Client\Callback\Result::TYPE_VOID:
                     $this->order->update_status('cancelled', __('Void', 'woocommerce'));
                     break;
-
                 case \PaymentGatewayCloud\Client\Callback\Result::TYPE_PREAUTHORIZE:
                     $this->order->update_status('on-hold', __('Awaiting capture/void', 'woocommerce'));
                     break;
@@ -416,6 +426,11 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
             // 3ds:browserScreenWidth
             // 3ds:browserTimezone
             // 3ds:browserUserAgent
+
+            /**
+             * force 3ds flow
+             */
+            // '3dsecure' => 'mandatory',
 
             /**
              * Additional 3ds 2.0 data
