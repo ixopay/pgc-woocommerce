@@ -1,6 +1,12 @@
 # Release Notes
 
 ## Unreleased
+
+## v1.6.1 (2019-10-21)
+### Fixed
+- Do not force http on callback URL
+
+## v1.6.0 (2019-10-18)
 ### Changed
 - Error return url redirect to checkout page with error message
 - Set payment status more explicitly
