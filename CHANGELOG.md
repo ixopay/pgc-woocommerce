@@ -1,6 +1,10 @@
 # Release Notes
 
 ## Unreleased
+### Added
+- Explicit check of callback
+- Clear cart filter
+- Source platform header
 
 ## v1.6.1 (2019-10-21)
 ### Fixed
