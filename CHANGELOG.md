@@ -1,6 +1,8 @@
 # Release Notes
 
 ## Unreleased
+
+## v1.7.0 (2019-11-19)
 ### Added
 - Explicit check of callback
 - Clear cart filter
