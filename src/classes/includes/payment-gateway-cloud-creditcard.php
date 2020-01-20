@@ -298,7 +298,7 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
             }
         }
 
-
+        die("OK");
     }
 
     public function init_form_fields()

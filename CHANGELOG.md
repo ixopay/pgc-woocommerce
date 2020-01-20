@@ -1,6 +1,8 @@
 # Release Notes
 
 ## Unreleased
+### Fixed
+- Callback missing OK response
 
 ## v1.7.0 (2019-11-19)
 ### Added
