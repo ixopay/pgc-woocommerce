@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## v1.7.1 (2020-01-20)
+### Fixed
+- Callback missing OK response
+
 ## v1.7.0 (2019-11-19)
 ### Added
 - Explicit check of callback

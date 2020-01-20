@@ -207,16 +207,21 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
                 // $errors = $result->getErrors();
                 return $this->paymentFailedResponse();
             } elseif ($result->getReturnType() == PaymentGatewayCloud\Client\Transaction\Result::RETURN_TYPE_REDIRECT) {
-                // HOSTED PAYMENT PAGE OR SEAMLESS+3DS
+                /**
+                 * hosted payment page or seamless+3DS
+                 */
                 return [
                     'result' => 'success',
                     'redirect' => $result->getRedirectUrl(),
                 ];
             } elseif ($result->getReturnType() == PaymentGatewayCloud\Client\Transaction\Result::RETURN_TYPE_PENDING) {
-                // payment is pending, wait for callback to complete
+                /**
+                 * payment is pending, wait for callback to complete
+                 */
             } elseif ($result->getReturnType() == PaymentGatewayCloud\Client\Transaction\Result::RETURN_TYPE_FINISHED) {
-
-                //seamless will finish here ONLY FOR NON-3DS SEAMLESS
+                /**
+                 * seamless will finish here ONLY FOR NON-3DS SEAMLESS
+                 */
             }
             $woocommerce->cart->empty_cart();
 
@@ -293,7 +298,7 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
             }
         }
 
-
+        die("OK");
     }
 
     public function init_form_fields()
