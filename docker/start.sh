@@ -32,6 +32,7 @@ if [ ! -f "/setup_complete" ]; then
         else
             echo "Faled to build!, there is no such file: ${BUILD_ARTIFACT}"
             exit 1
+        fi
     else
         if [ ! -d "/source/.git" ] && [ ! -f  "/source/.git" ]; then
             echo -e "Checking out branch ${BRANCH} from ${REPOSITORY}"
