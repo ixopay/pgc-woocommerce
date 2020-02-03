@@ -5,9 +5,7 @@ EXPOSE 80
 VOLUME /bitnami
 VOLUME /source
 
-ARG DEFAULT_BRANCH=master
-
-ENV ALLOW_EMPTY_PASSWORD="no" \
+ENV ALLOW_EMPTY_PASSWORD="yes" \
     BITNAMI_APP_NAME="wordpress" \
     BITNAMI_IMAGE_VERSION="5.3.0-debian-9-r17" \
     MARIADB_HOST="mariadb" \
@@ -46,22 +44,22 @@ ENV ALLOW_EMPTY_PASSWORD="no" \
     SHOP_DEMO="yes" \
     SHOP_CURRENCY="EUR" \
     SHOP_COUNTRY="AT:*" \
-    SHOP_ZIP="1010" \
+    SHOP_ZIP="1000" \
     SHOP_CITY="Wien" \
     SHOP_PGC_URL="sandbox" \
-    SHOP_PGC_USER="" \
-    SHOP_PGC_PASSWORD="" \
-    SHOP_PGC_API_KEY="" \
-    SHOP_PGC_SECRET="" \
-    SHOP_PGC_INTEGRATION_KEY="" \
+    SHOP_PGC_USER="test-user" \
+    SHOP_PGC_PASSWORD="test-pass" \
+    SHOP_PGC_API_KEY="key" \
+    SHOP_PGC_SECRET="secret" \
+    SHOP_PGC_INTEGRATION_KEY="int_key" \
     SHOP_PGC_CC_AMEX="True" \
-    SHOP_PGC_CC_DINERS="" \
-    SHOP_PGC_CC_DISCOVER="" \
-    SHOP_PGC_CC_JCB="" \
-    SHOP_PGC_CC_MAESTRO="" \
-    SHOP_PGC_CC_MASTERCARD="" \
-    SHOP_PGC_CC_UNIOPNPAY="" \
-    SHOP_PGC_CC_VISA="" \
+    SHOP_PGC_CC_DINERS="True" \
+    SHOP_PGC_CC_DISCOVER="True" \
+    SHOP_PGC_CC_JCB="True" \
+    SHOP_PGC_CC_MAESTRO="True" \
+    SHOP_PGC_CC_MASTERCARD="True" \
+    SHOP_PGC_CC_UNIOPNPAY="True" \
+    SHOP_PGC_CC_VISA="True" \
     SHOP_PGC_CC_TYPE="debit" \
     SHOP_PGC_CC_TYPE_AMEX="debit" \
     SHOP_PGC_CC_TYPE_DINERS="debit" \
@@ -73,7 +71,8 @@ ENV ALLOW_EMPTY_PASSWORD="no" \
     SHOP_PGC_CC_TYPE_VISA="debit" \
     URL="http://localhost" \
     REPOSITORY="https://github.com/user/repo" \
-    BRANCH=$DEFAULT_BRANCH
+    BRANCH="master" \
+    BUILD_ARTIFACT=""
 
 RUN apt-get update && apt-get install -y \
   git \

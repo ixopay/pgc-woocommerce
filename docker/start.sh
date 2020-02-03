@@ -7,6 +7,7 @@ if [ ! -f "/setup_complete" ]; then
     echo -e "Updating Hostname"
     SHOP_DOMAIN=$(echo "${URL}" | awk -F'/' '{ print $3 }')
     sed "s|SHOP_DOMAIN|$SHOP_DOMAIN|g" -i /bitnami/wordpress/wp-config.php
+    sed "s|SHOP_BASE_URL|$URL|g" -i /bitnami/wordpress/wp-config.php
 fi
 
 /app-entrypoint.sh nami start --foreground apache &
@@ -25,18 +26,22 @@ if [ ! -f "/setup_complete" ]; then
 
     echo -e "Installing PGC Extension"
 
-    if [ ! -d "/source/.git" ] && [ ! -f  "/source/.git" ]; then
-        echo -e "Checking out branch ${BRANCH} from ${REPOSITORY}"
-        git clone $REPOSITORY /tmp/paymentgatewaycloud
-        cd /tmp/paymentgatewaycloud
-        git checkout $BRANCH
+    if [ $BUILD_ARTIFACT ] && [ -f /source/paymentgatewaycloud.zip ]; then
+        cp /source/paymentgatewaycloud.zip /paymentgatewaycloud.zip
     else
-        echo -e "Using Development Source!"
-        cp -rf /source /tmp/paymentgatewaycloud
+        if [ ! -d "/source/.git" ] && [ ! -f  "/source/.git" ]; then
+            echo -e "Checking out branch ${BRANCH} from ${REPOSITORY}"
+            git clone $REPOSITORY /tmp/paymentgatewaycloud
+            cd /tmp/paymentgatewaycloud
+            git checkout $BRANCH
+        else
+            echo -e "Using Development Source!"
+            cp -rf /source /tmp/paymentgatewaycloud
+        fi
+        cd /tmp/paymentgatewaycloud
+        mv src paymentgatewaycloud
+        zip -q -r /paymentgatewaycloud.zip paymentgatewaycloud
     fi
-    cd /tmp/paymentgatewaycloud
-    mv src paymentgatewaycloud
-    zip -q -r /paymentgatewaycloud.zip paymentgatewaycloud
     wp --allow-root plugin install /paymentgatewaycloud.zip --activate
 
     echo -e "Configuring Extensions"
