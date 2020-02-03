@@ -92,8 +92,8 @@ if ( defined( 'WP_CLI' ) ) {
   $_SERVER['HTTP_HOST'] = 'SHOP_DOMAIN';
 }
 
-define('WP_SITEURL', 'https://' . $_SERVER['HTTP_HOST'] . '/');
-define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST'] . '/');
+define('WP_SITEURL', 'SHOP_BASE_URL/');
+define('WP_HOME', 'SHOP_BASE_URL/');
 /** Absolute path to the WordPress directory. */
 
 if ( ! defined( 'ABSPATH' ) ) {
