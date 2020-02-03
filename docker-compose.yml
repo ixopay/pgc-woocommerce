@@ -20,3 +20,6 @@ services:
       - URL=${URL}
       - WORDPRESS_PASSWORD=${WORDPRESS_PASSWORD}
       - BUILD_ARTIFACT=${BUILD_ARTIFACT}
+
+volumes:
+  undefined:
