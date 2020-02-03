@@ -26,7 +26,7 @@ if [ ! -f "/setup_complete" ]; then
 
     echo -e "Installing PGC Extension"
 
-    if [ $BUILD_ARTIFACT ]; then
+    if [ "${BUILD_ARTIFACT}" != "undefined" ]; then
         if [ -f /dist/paymentgatewaycloud.zip ]; then
             cp /dist/paymentgatewaycloud.zip /paymentgatewaycloud.zip
         else

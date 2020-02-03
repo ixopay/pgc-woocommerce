@@ -73,7 +73,7 @@ ENV ALLOW_EMPTY_PASSWORD="yes" \
     URL="http://localhost" \
     REPOSITORY="https://github.com/user/repo" \
     BRANCH="master" \
-    BUILD_ARTIFACT=""
+    BUILD_ARTIFACT="undefined"
 
 RUN apt-get update && apt-get install -y \
   git \
