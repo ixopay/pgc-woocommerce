@@ -1,16 +1,17 @@
 # Docker demo & development environment
 
+We supply ready to use Docker environments for plugin development & testing. 
+
 **Warning!** This docker image is dedicated for development & demo usage, we don't recommended to use it in production.
 
 ---
 
 ## Usage
 
-To quickly spawn a Woocommerce test shop with a plugin tagged at our github.com repository:
-
+To quickly spawn a Woocommerce test shop with a plugin tagged at our Github repository:
 Clone our plugin repository and run the following command from the plugin root directory:
 
-```
+```bash
  REPOSITORY="https://github.com/ixopay/pgc-woocommerce" \
  BRANCH="master" \
  URL="http://localhost" \
@@ -21,8 +22,20 @@ Clone our plugin repository and run the following command from the plugin root d
 
 To develop and test plugin changes, you can run the following docker-compose command from the plugin root directory, to start a Woocommerce shop & initialize a database with a bind mounted version of the plugin. The shop will be accessible via: `http://localhost/wp-admin`.
 
-```
+```bash
  BITNAMI_IMAGE_VERSION=latest \
+ URL="http://localhost" \
+ WORDPRESS_USERNAME=dev \
+ WORDPRESS_PASSWORD=dev \
+  docker-compose up --build --force-recreate --renew-anon-volumes
+```
+
+To test a build you generated via build.php run the following command from the plugin root directory:
+
+```bash
+ php build.php sandbox.paymentgateway.cloud "My Payment Provider"
+ BITNAMI_IMAGE_VERSION=latest \
+ BUILD_ARTIFACT="./dist/woocommerce-my-payment-provider-1.7.1.zip"
  URL="http://localhost" \
  WORDPRESS_USERNAME=dev \
  WORDPRESS_PASSWORD=dev \
@@ -31,16 +44,15 @@ To develop and test plugin changes, you can run the following docker-compose com
 
 Please note:
 
-- By running the command we always run a complete `--build` for the shop container, `--force-recreate` to delete previous containers and always delete
-the previous instance's storage volumes via `--renew-anon-volumes`. We don't support to change variables without rebuilding the full container.
+- By running the command we always run a complete `--build` for the shop container, `--force-recreate` to delete previous containers and always delete the previous instance's storage volumes via `--renew-anon-volumes`. We don't support to change variables without rebuilding the full container.
 - We currently use Bitnami Docker images as base for the environment and add our plugin.
 - Further environment variables can be set, please take a look at `docker/Dockerfile` for a complete list.
 
 ### Customize Settings
 
 Defaults for the Docker build are configured in the `.env` file. You can either:
--  set variables via environment variable or
-- persist them in the `environment:` section of the respective docker-compose file.
+ - set variables via environment variable or
+ - persist them in the `environment:` section of the respective docker-compose file.
 
 ### Platform credentials
 
@@ -69,7 +81,6 @@ Additional platform specific settings:
  SHOP_PGC_CC_MASTERCARD="True"
  SHOP_PGC_CC_UNIOPNPAY="True"
  SHOP_PGC_CC_VISA="True"
-
  # Either use "debit" or "preauthorize" transaction requests
  SHOP_PGC_CC_TYPE="debit"
  SHOP_PGC_CC_TYPE_AMEX="debit"
@@ -80,4 +91,3 @@ Additional platform specific settings:
  SHOP_PGC_CC_TYPE_MASTERCARD="debit"
  SHOP_PGC_CC_TYPE_UNIOPNPAY="debit"
  SHOP_PGC_CC_TYPE_VISA="debit"
-```
