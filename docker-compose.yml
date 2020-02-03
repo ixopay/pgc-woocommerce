@@ -10,43 +10,13 @@ services:
     build: 'docker/'
     volumes:
       - '.:/source'
+      - '${BUILD_ARTIFACT}:/source/paymentgatewaycloud.zip'
     ports:
       - '80:80'
       - '443:443'
     depends_on:
       - mariadb
     environment:
-      - MARIADB_HOST=mariadb
-      - ALLOW_EMPTY_PASSWORD=yes
-      - WORDPRESS_PASSWORD=CHANGEME
-      - URL=https://localhost
-      - BRANCH=master
-      - SHOP_ADDRESS=Mariahilferstrasse 77
-      - SHOP_DEMO=yes
-      - SHOP_CURRENCY=EUR
-      - SHOP_COUNTRY=AT:*
-      - SHOP_ZIP=1060
-      - SHOP_CITY=Wien
-      - SHOP_PGC_URL=gateway-sandbox.example.com
-      - SHOP_PGC_USER=test-user
-      - SHOP_PGC_PASSWORD=test-pass
-      - SHOP_PGC_API_KEY=key
-      - SHOP_PGC_SECRET=secret
-      - SHOP_PGC_INTEGRATION_KEY=intkey
-      - SHOP_PGC_CC_AMEX=True
-      - SHOP_PGC_CC_DINERS=True
-      - SHOP_PGC_CC_DISCOVER=True
-      - SHOP_PGC_CC_JCB=True
-      - SHOP_PGC_CC_MAESTRO=True
-      - SHOP_PGC_CC_MASTERCARD=True
-      - SHOP_PGC_CC_UNIOPNPAY=True
-      - SHOP_PGC_CC_VISA=True
-      - SHOP_PGC_CC_TYPE=debit
-      - SHOP_PGC_CC_TYPE_AMEX=debit
-      - SHOP_PGC_CC_TYPE_DINERS=debit
-      - SHOP_PGC_CC_TYPE_DISCOVER=debit
-      - SHOP_PGC_CC_TYPE_JCB=debit
-      - SHOP_PGC_CC_TYPE_MAESTRO=debit
-      - SHOP_PGC_CC_TYPE_MASTERCARD=debit
-      - SHOP_PGC_CC_TYPE_UNIOPNPAY=debit
-      - SHOP_PGC_CC_TYPE_VISA=debit
+      - URL=${URL}
+      - WORDPRESS_PASSWORD=${WORDPRESS_PASSWORD}
+      - BUILD_ARTIFACT=${BUILD_ARTIFACT}
