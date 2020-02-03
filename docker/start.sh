@@ -26,8 +26,12 @@ if [ ! -f "/setup_complete" ]; then
 
     echo -e "Installing PGC Extension"
 
-    if [ $BUILD_ARTIFACT ] && [ -f /source/paymentgatewaycloud.zip ]; then
-        cp /source/paymentgatewaycloud.zip /paymentgatewaycloud.zip
+    if [ $BUILD_ARTIFACT ]; then
+        if [ -f /dist/paymentgatewaycloud.zip ]; then
+            cp /dist/paymentgatewaycloud.zip /paymentgatewaycloud.zip
+        else
+            echo "Faled to build!, there is no such file: ${BUILD_ARTIFACT}"
+            exit 1
     else
         if [ ! -d "/source/.git" ] && [ ! -f  "/source/.git" ]; then
             echo -e "Checking out branch ${BRANCH} from ${REPOSITORY}"
@@ -102,7 +106,7 @@ if [ ! -f "/setup_complete" ]; then
     curl -o /sample_products.xml https://raw.githubusercontent.com/woocommerce/woocommerce/master/sample-data/sample_products.xml
     wp --allow-root import /sample_products.xml --authors=create
 
-    echo -e "Setup Complete"
+    echo -e "Setup Complete! You can access the instance at: ${URL}"
 
     touch /setup_complete
 

@@ -10,7 +10,7 @@ services:
     build: 'docker/'
     volumes:
       - '.:/source'
-      - '${BUILD_ARTIFACT}:/source/paymentgatewaycloud.zip'
+      - '${BUILD_ARTIFACT}:/dist/paymentgatewaycloud.zip'
     ports:
       - '80:80'
       - '443:443'
