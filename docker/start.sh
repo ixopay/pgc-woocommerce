@@ -3,13 +3,6 @@
 
 echo -e "Starting Wordpress"
 
-if [ ! -f "/setup_complete" ]; then
-    echo -e "Updating Hostname"
-    SHOP_DOMAIN=$(echo "${URL}" | awk -F'/' '{ print $3 }')
-    sed "s|SHOP_DOMAIN|$SHOP_DOMAIN|g" -i /bitnami/wordpress/wp-config.php
-    sed "s|SHOP_BASE_URL|$URL|g" -i /bitnami/wordpress/wp-config.php
-fi
-
 /app-entrypoint.sh nami start --foreground apache &
 
 if [ ! -f "/setup_complete" ]; then

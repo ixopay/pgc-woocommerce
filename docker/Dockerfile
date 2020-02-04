@@ -36,7 +36,7 @@ ENV PRECONFIGURE="" \
     SHOP_PGC_CC_TYPE_MASTERCARD="debit" \
     SHOP_PGC_CC_TYPE_UNIOPNPAY="debit" \
     SHOP_PGC_CC_TYPE_VISA="debit" \
-    URL="http://localhost" \
+    URL="localhost" \
     REPOSITORY="https://github.com/user/repo" \
     BRANCH="master" \
     BUILD_ARTIFACT="undefined"
@@ -48,7 +48,6 @@ RUN apt-get update && apt-get install -y \
   vim \
   && apt-get autoclean
 
-COPY wp_config.php /bitnami/wordpress/wp-config.php
 COPY start.sh /start.sh
 
 ENTRYPOINT ["/start.sh"]

@@ -14,7 +14,7 @@ Clone our plugin repository and run the following command from the plugin root d
 ```bash
  REPOSITORY="https://github.com/ixopay/pgc-woocommerce" \
  BRANCH="master" \
- URL="http://localhost" \
+ URL="localhost" \
  WORDPRESS_USERNAME="dev" \
  WORDPRESS_PASSWORD="dev" \
   docker-compose -f docker-compose.github.yml up --build --force-recreate --renew-anon-volumes
@@ -24,7 +24,7 @@ To develop and test plugin changes, you can run the following docker-compose com
 
 ```bash
  BITNAMI_IMAGE_VERSION="latest" \
- URL="http://localhost" \
+ URL="localhost" \
  WORDPRESS_USERNAME="dev" \
  WORDPRESS_PASSWORD="dev" \
   docker-compose up --build --force-recreate --renew-anon-volumes
@@ -36,7 +36,7 @@ To test a build you generated via build.php run the following command from the p
  php build.php sandbox.paymentgateway.cloud "My Payment Provider"
  BITNAMI_IMAGE_VERSION="latest" \
  BUILD_ARTIFACT="${PWD}/dist/woocommerce-my-payment-provider-1.7.1.zip" \
- URL="http://localhost" \
+ URL="localhost" \
  WORDPRESS_USERNAME="dev" \
  WORDPRESS_PASSWORD="dev" \
   docker-compose up --build --force-recreate --renew-anon-volumes
@@ -94,3 +94,4 @@ Additional platform specific settings:
  SHOP_PGC_CC_TYPE_MASTERCARD="debit"
  SHOP_PGC_CC_TYPE_UNIOPNPAY="debit"
  SHOP_PGC_CC_TYPE_VISA="debit"
+ ```
