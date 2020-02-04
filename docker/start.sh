@@ -28,6 +28,7 @@ if [ ! -f "/setup_complete" ]; then
 
     if [ "${BUILD_ARTIFACT}" != "undefined" ]; then
         if [ -f /dist/paymentgatewaycloud.zip ]; then
+            echo -e "Using Supplied zip ${BUILD_ARTIFACT}"
             cp /dist/paymentgatewaycloud.zip /paymentgatewaycloud.zip
         else
             echo "Faled to build!, there is no such file: ${BUILD_ARTIFACT}"

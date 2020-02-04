@@ -50,8 +50,8 @@ Please note:
 
 ### Customize Settings
 
-Defaults for the Docker build are configured in the `.env` file. You can either:
- - set variables via environment variable or
+Defaults for the Docker build are configured in the `docker-compose` files. You can either:
+ - set variables via environment variable or (like above)
  - persist them in the `environment:` section of the respective docker-compose file.
 
 ### Platform credentials
