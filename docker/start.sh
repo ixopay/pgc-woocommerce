@@ -13,9 +13,13 @@ if [ ! -f "/setup_complete" ]; then
 
     while (! $(curl --silent http://localhost:80 | grep "ust another WordPress site" > /dev/null)); do sleep 2s; done
 
+    echo -e "Removing inactive plugins"
+
+    wp --allow-root plugin delete --quiet $(wp --allow-root plugin list --status=inactive --field=name)
+
     echo -e "Installing WooCommerce"
 
-    wp --allow-root plugin install woocommerce woocommerce-admin wordpress-importer --activate
+    wp --allow-root plugin install --quiet woocommerce woocommerce-admin wordpress-importer --activate
 
     echo -e "Installing PGC Extension"
 
@@ -48,6 +52,8 @@ if [ ! -f "/setup_complete" ]; then
     # Setup Woocommerce
     wp --allow-root option set siteurl "${URL}"
     wp --allow-root option set home "${URL}"
+    wp --allow-root option set show_on_front page
+    wp --allow-root option set page_on_front 7
     wp --allow-root option set woocommerce_store_address "${SHOP_ADDRESS}"
     wp --allow-root option set woocommerce_store_city "${SHOP_CITY}"
     wp --allow-root option set woocommerce_store_postcode "${SHOP_ZIP}"
@@ -99,7 +105,7 @@ if [ ! -f "/setup_complete" ]; then
     echo -e "Import Products"
 
     curl -o /sample_products.xml https://raw.githubusercontent.com/woocommerce/woocommerce/master/sample-data/sample_products.xml
-    wp --allow-root import /sample_products.xml --authors=create
+    wp --allow-root import /sample_products.xml --quiet --authors=create --skip=image_resize
 
     echo -e "Setup Complete! You can access the instance at: ${URL}"
 
@@ -115,7 +121,7 @@ if [ ! -f "/setup_complete" ]; then
         touch /opt/bitnami/wordpress/.initialized
 
         kill 1
-    else 
+    else
         # Keep script Running
         trap : TERM INT; (while true; do sleep 1m; done) & wait
     fi
