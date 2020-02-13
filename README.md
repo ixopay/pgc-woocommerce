@@ -9,7 +9,7 @@
 ## Build
 
 * Clone or download the source from this repository.
-* Comment/disable adapters in `src/classes/includes/payment-gateway-cloud-provider.php` - see `paymentMethods()` method.
+* Comment/disable adapters in [`src/classes/includes/payment-gateway-cloud-provider.php`](src/classes/includes/payment-gateway-cloud-provider.php) - see `paymentMethods()` method.
 * Run the build script to apply desired branding and create a zip file ready for distribution:
 ```shell script
 php build.php gateway.mypaymentprovider.com "My Payment Provider"
@@ -18,6 +18,10 @@ php build.php gateway.mypaymentprovider.com "My Payment Provider"
 - Find the newly versioned zip file in the `dist` folder.
 - Test by installing the extension in an existing shop installation (see [src/readme.txt](src/readme.txt)).
 - Distribute the versioned zip file.
+
+## Docker
+
+We supply ready to use Docker environments for development & testing. Please take a look at the supplied [docker](docker) directory for instructions.
 
 ## Provide Updates
 

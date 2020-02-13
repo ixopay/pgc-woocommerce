@@ -1,0 +1,53 @@
+FROM bitnami/wordpress:5
+
+EXPOSE 80
+
+VOLUME /bitnami
+VOLUME /source
+VOLUME /dist
+
+ENV PRECONFIGURE="" \
+    SHOP_ADDRESS="Shoppingstreet 123" \
+    SHOP_DEMO="yes" \
+    SHOP_CURRENCY="EUR" \
+    SHOP_COUNTRY="AT:*" \
+    SHOP_ZIP="1000" \
+    SHOP_CITY="Wien" \
+    SHOP_PGC_URL="sandbox" \
+    SHOP_PGC_USER="test-user" \
+    SHOP_PGC_PASSWORD="test-pass" \
+    SHOP_PGC_API_KEY="key" \
+    SHOP_PGC_SECRET="secret" \
+    SHOP_PGC_INTEGRATION_KEY="int_key" \
+    SHOP_PGC_CC_AMEX="True" \
+    SHOP_PGC_CC_DINERS="True" \
+    SHOP_PGC_CC_DISCOVER="True" \
+    SHOP_PGC_CC_JCB="True" \
+    SHOP_PGC_CC_MAESTRO="True" \
+    SHOP_PGC_CC_MASTERCARD="True" \
+    SHOP_PGC_CC_UNIOPNPAY="True" \
+    SHOP_PGC_CC_VISA="True" \
+    SHOP_PGC_CC_TYPE="debit" \
+    SHOP_PGC_CC_TYPE_AMEX="debit" \
+    SHOP_PGC_CC_TYPE_DINERS="debit" \
+    SHOP_PGC_CC_TYPE_DISCOVER="debit" \
+    SHOP_PGC_CC_TYPE_JCB="debit" \
+    SHOP_PGC_CC_TYPE_MAESTRO="debit" \
+    SHOP_PGC_CC_TYPE_MASTERCARD="debit" \
+    SHOP_PGC_CC_TYPE_UNIOPNPAY="debit" \
+    SHOP_PGC_CC_TYPE_VISA="debit" \
+    URL="localhost" \
+    REPOSITORY="https://github.com/user/repo" \
+    BRANCH="master" \
+    BUILD_ARTIFACT="undefined"
+
+RUN apt-get update && apt-get install --no-install-recommends -y \
+  git \
+  zip \
+  unzip \
+  vim-tiny \
+  && apt-get autoclean
+
+COPY start.sh /start.sh
+
+ENTRYPOINT ["/start.sh"]
