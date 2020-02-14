@@ -25,7 +25,7 @@ ENV PRECONFIGURE="" \
     SHOP_PGC_CC_JCB="True" \
     SHOP_PGC_CC_MAESTRO="True" \
     SHOP_PGC_CC_MASTERCARD="True" \
-    SHOP_PGC_CC_UNIOPNPAY="True" \
+    SHOP_PGC_CC_UNIONPAY="True" \
     SHOP_PGC_CC_VISA="True" \
     SHOP_PGC_CC_TYPE="debit" \
     SHOP_PGC_CC_TYPE_AMEX="debit" \
@@ -34,11 +34,12 @@ ENV PRECONFIGURE="" \
     SHOP_PGC_CC_TYPE_JCB="debit" \
     SHOP_PGC_CC_TYPE_MAESTRO="debit" \
     SHOP_PGC_CC_TYPE_MASTERCARD="debit" \
-    SHOP_PGC_CC_TYPE_UNIOPNPAY="debit" \
+    SHOP_PGC_CC_TYPE_UNIONPAY="debit" \
     SHOP_PGC_CC_TYPE_VISA="debit" \
     URL="localhost" \
     REPOSITORY="https://github.com/user/repo" \
     BRANCH="master" \
+    WHITELABEL="" \
     BUILD_ARTIFACT="undefined"
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
@@ -49,5 +50,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   && apt-get autoclean
 
 COPY start.sh /start.sh
+COPY whitelabel_vars.php /whitelabel.php
 
 ENTRYPOINT ["/start.sh"]

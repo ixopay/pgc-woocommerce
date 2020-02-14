@@ -18,6 +18,7 @@ services:
       - mariadb
     environment:
       - ALLOW_EMPTY_PASSWORD=${ALLOW_EMPTY_PASSWORD:-yes}
+      - WHITELABEL=${WHITELABEL:-}
       - BITNAMI_APP_NAME=${BITNAMI_APP_NAME:-wordpress}
       - BITNAMI_IMAGE_VERSION=${BITNAMI_IMAGE_VERSION:-5.3.0-debian-9-r17}
       - MARIADB_HOST=${MARIADB_HOST:-mariadb}
