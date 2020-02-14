@@ -46,6 +46,7 @@ if [ ! -f "/setup_complete" ]; then
         cd /tmp/paymentgatewaycloud
         if [ ! -z "${WHITELABEL}" ]; then
             echo -e "Running Whitelabel Script for ${WHITELABEL}"
+            echo "y" | php build.php "gateway.mypaymentprovider.com" "${WHITELABEL}"
             DEST_FILE="$(echo "y" | php build.php "gateway.mypaymentprovider.com" "${WHITELABEL}" | tail -n 1 | sed 's/.*Created file "\(.*\)".*/\1/g')"
             DB_FIELD_NAME="$(php /whitelabel.php snakeCase "${WHITELABEL}")"
             cp "${DEST_FILE}" /paymentgatewaycloud.zip
