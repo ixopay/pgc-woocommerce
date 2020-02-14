@@ -33,7 +33,7 @@ To develop and test plugin changes, you can run the following docker-compose com
 To test a whitelabeled version run the following command from the plugin root directory:
 
 ```bash
- WHITELABEL="My Payment Provider"
+ WHITELABEL="My Payment Provider" \
  BITNAMI_IMAGE_VERSION="latest" \
  URL="localhost" \
  WORDPRESS_USERNAME="dev" \
