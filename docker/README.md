@@ -30,12 +30,11 @@ To develop and test plugin changes, you can run the following docker-compose com
   docker-compose up --build --force-recreate --renew-anon-volumes
 ```
 
-To test a build you generated via build.php run the following command from the plugin root directory:
+To test a whitelabeled version run the following command from the plugin root directory:
 
 ```bash
- php build.php sandbox.paymentgateway.cloud "My Payment Provider"
+ WHITELABEL="My Payment Provider"
  BITNAMI_IMAGE_VERSION="latest" \
- BUILD_ARTIFACT="${PWD}/dist/woocommerce-my-payment-provider-1.7.1.zip" \
  URL="localhost" \
  WORDPRESS_USERNAME="dev" \
  WORDPRESS_PASSWORD="dev" \
