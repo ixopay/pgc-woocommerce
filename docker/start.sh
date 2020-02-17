@@ -1,6 +1,10 @@
 #!/bin/bash
-# set -x
-#set -euo pipefail
+set -euo pipefail
+
+error_exit() {
+    echo "[Error]: $1" 1>&2
+	exit 127
+}
 
 echo -e "Starting Wordpress"
 
@@ -16,11 +20,11 @@ if [ ! -f "/setup_complete" ]; then
 
     echo -e "Removing inactive plugins"
 
-    wp --allow-root plugin delete --quiet $(wp --allow-root plugin list --status=inactive --field=name)
+    wp --allow-root plugin delete --quiet $(wp --allow-root plugin list --status=inactive --field=name) || error_exit "Could not remove Wordpress Extensions"
 
     echo -e "Installing WooCommerce"
 
-    wp --allow-root plugin install --quiet woocommerce woocommerce-admin wordpress-importer --activate
+    wp --allow-root plugin install --quiet woocommerce woocommerce-admin wordpress-importer --activate || error_exit "Could not install Woocommerce"
 
     echo -e "Installing PGC Extension"
 
@@ -36,9 +40,9 @@ if [ ! -f "/setup_complete" ]; then
     else
         if [ ! -d "/source/.git" ] && [ ! -f  "/source/.git" ]; then
             echo -e "Checking out branch ${BRANCH} from ${REPOSITORY}"
-            git clone $REPOSITORY /tmp/paymentgatewaycloud
+            git clone $REPOSITORY /tmp/paymentgatewaycloud || error_exit "Could not clone Github repo"
             cd /tmp/paymentgatewaycloud
-            git checkout $BRANCH
+            git checkout $BRANCH || error_exit "Could not checkout Branch ${BRANCH}"
         else
             echo -e "Using Development Source!"
             cp -rf /source /tmp/paymentgatewaycloud
@@ -46,16 +50,16 @@ if [ ! -f "/setup_complete" ]; then
         cd /tmp/paymentgatewaycloud
         if [ ! -z "${WHITELABEL}" ]; then
             echo -e "Running Whitelabel Script for ${WHITELABEL}"
-            echo "y" | php build.php "gateway.mypaymentprovider.com" "${WHITELABEL}"
-            DEST_FILE="$(echo "y" | php build.php "gateway.mypaymentprovider.com" "${WHITELABEL}" | tail -n 1 | sed 's/.*Created file "\(.*\)".*/\1/g')"
-            DB_FIELD_NAME="$(php /whitelabel.php snakeCase "${WHITELABEL}")"
+            echo "y" | php build.php "gateway.mypaymentprovider.com" "${WHITELABEL}" || error_exit "Could not Whitelabel Extension"
+            DEST_FILE="$(echo "y" | php build.php "gateway.mypaymentprovider.com" "${WHITELABEL}" | tail -n 1 | sed 's/.*Created file "\(.*\)".*/\1/g')" || error_exit "Could not extract Zip File Name"
+            DB_FIELD_NAME="$(php /whitelabel.php snakeCase "${WHITELABEL}")" || error_exit "Could not extract Database Name Field"
             cp "${DEST_FILE}" /paymentgatewaycloud.zip
         else
-           mv src paymentgatewaycloud
+           mv src paymentgatewaycloud || error_exit "Could not find Source Files"
            zip -q -r /paymentgatewaycloud.zip paymentgatewaycloud
         fi
     fi
-    wp --allow-root plugin install /paymentgatewaycloud.zip --activate
+    wp --allow-root plugin install /paymentgatewaycloud.zip --activate || error_exit "Could not Install PGC Extension"
 
     echo -e "Configuring Extensions"
 
@@ -114,10 +118,10 @@ if [ ! -f "/setup_complete" ]; then
 
     echo -e "Import Products"
 
-    curl -o /sample_products.xml https://raw.githubusercontent.com/woocommerce/woocommerce/master/sample-data/sample_products.xml
-    wp --allow-root import /sample_products.xml --quiet --authors=create --skip=image_resize
+    curl -s -o /sample_products.xml https://raw.githubusercontent.com/woocommerce/woocommerce/master/sample-data/sample_products.xml || error_exit "Could not load sample data"
+    wp --allow-root import /sample_products.xml --quiet --authors=create --skip=image_resize > /dev/null  || error_exit "Could not install sample data"
 
-    echo -e "Setup Complete! You can access the instance at: ${URL}"
+    echo -e "Setup Complete! You can access the instance at: http://${URL}/"
 
     touch /setup_complete
 
