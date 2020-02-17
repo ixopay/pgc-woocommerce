@@ -88,30 +88,30 @@ if [ ! -f "/setup_complete" ]; then
 
     # Enable Payment Providers
     if [ $SHOP_PGC_URL ]; then
-        wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE'"}'
+        wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL/'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE'"}'
         if [ $SHOP_PGC_CC_AMEX ]; then
-            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_amex_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_AMEX'"}'
+            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_amex_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL/'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_AMEX'"}'
         fi
         if [ $SHOP_PGC_CC_DINERS ]; then
-            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_diners_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_DINERS'"}'
+            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_diners_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL/'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_DINERS'"}'
         fi
         if [ $SHOP_PGC_CC_DISCOVER ]; then
-            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_discover_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_DISCOVER'"}'
+            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_discover_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL/'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_DISCOVER'"}'
         fi
         if [ $SHOP_PGC_CC_JCB ]; then
-            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_jcb_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_JCB'"}'
+            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_jcb_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL/'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_JCB'"}'
         fi
         if [ $SHOP_PGC_CC_MAESTRO ]; then
-            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_maestro_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_MAESTRO'"}'
+            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_maestro_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL/'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_MAESTRO'"}'
         fi
         if [ $SHOP_PGC_CC_MASTERCARD ]; then
-            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_mastercard_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_MASTERCARD'"}'
+            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_mastercard_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL/'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_MASTERCARD'"}'
         fi
         if [ $SHOP_PGC_CC_UNIONPAY ]; then
-            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_unionpay_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_UNIONPAY'"}'
+            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_unionpay_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL/'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_UNIONPAY'"}'
         fi
         if [ $SHOP_PGC_CC_VISA ]; then
-            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_visa_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_VISA'"}'
+            wp --allow-root option set --format=json woocommerce_${DB_FIELD_NAME}_creditcard_visa_settings '{"enabled":"yes","apiHost":"'$SHOP_PGC_URL/'","apiUser":"'$SHOP_PGC_USER'","apiPassword":"'$SHOP_PGC_PASSWORD'","apiKey":"'$SHOP_PGC_API_KEY'","sharedSecret":"'$SHOP_PGC_SECRET'","integrationKey":"'$SHOP_PGC_INTEGRATION_KEY'","transactionRequest":"'$SHOP_PGC_CC_TYPE_VISA'"}'
         fi
     fi
 
@@ -120,21 +120,27 @@ if [ ! -f "/setup_complete" ]; then
     curl -s -o /sample_products.xml https://raw.githubusercontent.com/woocommerce/woocommerce/master/sample-data/sample_products.xml || error_exit "Could not load sample data"
     wp --allow-root import /sample_products.xml --quiet --authors=create --skip=image_resize > /dev/null  || error_exit "Could not install sample data"
 
+    unlink /opt/bitnami/wordpress/wp-config.php
+    unlink /opt/bitnami/wordpress/wp-content
+    mkdir /opt/bitnami/wordpress/wp-content
+    cp -rfLH /bitnami/wordpress/wp-content/* /opt/bitnami/wordpress/wp-content/
+    cp -rfLH /bitnami/wordpress/* /opt/bitnami/wordpress/
+    touch /opt/bitnami/wordpress/.initialized
+
     echo -e "Setup Complete! You can access the instance at: http://${URL}/"
 
     touch /setup_complete
 
     if [ $PRECONFIGURE ]; then
         echo -e "Prepare for Pre-Configured build"
-        unlink /opt/bitnami/wordpress/wp-config.php
-        unlink /opt/bitnami/wordpress/wp-content
-        mkdir /opt/bitnami/wordpress/wp-content
-        cp -rfLH /bitnami/wordpress/wp-content/* /opt/bitnami/wordpress/wp-content/
-        cp -rfLH /bitnami/wordpress/* /opt/bitnami/wordpress/
-        touch /opt/bitnami/wordpress/.initialized
-
         exit 0
     else
+        rm -rf /bitnami/wordpress
+        ln -s /opt/bitnami/wordpress /bitnami/wordpress
+        chown -R bitnami:daemon /opt/bitnami/wordpress
+        chown -R bitnami:daemon /bitnami/wordpress
+        wp --allow-root cache flush
+        
         # Keep script Running
         trap : TERM INT; (while true; do sleep 1m; done) & wait
     fi
