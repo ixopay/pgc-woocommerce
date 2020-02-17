@@ -34,8 +34,7 @@ if [ ! -f "/setup_complete" ]; then
             echo -e "Using Supplied zip ${BUILD_ARTIFACT}"
             cp /dist/paymentgatewaycloud.zip /paymentgatewaycloud.zip
         else
-            echo "Faled to build!, there is no such file: ${BUILD_ARTIFACT}"
-            exit 1
+            error_exit "Faled to build!, there is no such file: ${BUILD_ARTIFACT}"
         fi
     else
         if [ ! -d "/source/.git" ] && [ ! -f  "/source/.git" ]; then
