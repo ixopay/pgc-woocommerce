@@ -3,7 +3,7 @@ set -euo pipefail
 
 error_exit() {
     echo "[Error]: $1" 1>&2
-	exit 127
+	exit 1
 }
 
 echo -e "Starting Wordpress"
@@ -133,7 +133,7 @@ if [ ! -f "/setup_complete" ]; then
         cp -rfLH /bitnami/wordpress/* /opt/bitnami/wordpress/
         touch /opt/bitnami/wordpress/.initialized
 
-        kill 1
+        exit 0
     else
         # Keep script Running
         trap : TERM INT; (while true; do sleep 1m; done) & wait
