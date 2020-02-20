@@ -37,7 +37,7 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
         add_action('wp_enqueue_scripts', function () {
             wp_register_script('payment_js', $this->get_option('apiHost') . 'js/integrated/payment.min.js', [], PAYMENT_GATEWAY_CLOUD_EXTENSION_VERSION, false);
-            wp_register_script('payment_gateway_cloud_js', plugins_url('/paymentgatewaycloud/assets/js/payment-gateway-cloud.js'), [], PAYMENT_GATEWAY_CLOUD_EXTENSION_VERSION, false);
+            wp_register_script('payment_gateway_cloud_js_' . $this->id, plugins_url('/paymentgatewaycloud/assets/js/payment-gateway-cloud.js'), [], PAYMENT_GATEWAY_CLOUD_EXTENSION_VERSION, false);
         }, 999);
         add_action('woocommerce_api_wc_' . $this->id, [$this, 'process_callback']);
         add_filter('script_loader_tag', function ($tag, $handle) {
@@ -370,7 +370,7 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
     public function payment_fields()
     {
         wp_enqueue_script('payment_js');
-        wp_enqueue_script('payment_gateway_cloud_js');
+        wp_enqueue_script('payment_gateway_cloud_js_' . $this->id);
         $years = range(date('Y'), date('Y') + 50);
         $yearSelect = '';
         foreach ($years as $year) {

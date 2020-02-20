@@ -1,6 +1,8 @@
 # Release Notes
 
 ## Unreleased
+### Changed
+- Add card type to script handle for js asset
 
 ## v1.7.1 (2020-01-20)
 ### Fixed
