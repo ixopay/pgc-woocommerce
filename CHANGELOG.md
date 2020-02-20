@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## v1.7.2 (2020-02-20)
+### Changed
+- Add card type to script handle for js asset
+
 ## v1.7.1 (2020-01-20)
 ### Fixed
 - Callback missing OK response
