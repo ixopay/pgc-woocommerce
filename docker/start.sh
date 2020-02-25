@@ -120,9 +120,9 @@ if [ ! -f "/setup_complete" ]; then
     curl -s -o /sample_products.xml https://raw.githubusercontent.com/woocommerce/woocommerce/master/sample-data/sample_products.xml || error_exit "Could not load sample data"
     wp --allow-root import /sample_products.xml --quiet --authors=create --skip=image_resize > /dev/null  || error_exit "Could not install sample data"
 
-    if [ $DEMO_CUSTOMER_USER ] && [ $DEMO_CUSTOMER_PASSWORD ]; then
+    if [ "$DEMO_CUSTOMER_USER" ] && [ "$DEMO_CUSTOMER_PASSWORD" ]; then
         echo -e "Creating Demo Customer"
-        wp --allow-root --user=user@example.com wc customer create --email="RobertZJohnson@einrot.com" --username="${DEMO_CUSTOMER_USER}" --password="${DEMO_CUSTOMER_PASSWORD}" --first_name="Robert Z." --last_name="Johnson" --billing="{'first_name':'Robert Z.','last_name':'Johnson','company':'Ixolit','address_1':'242 University Hill Road','address_2':'','city':'Springfield','state':'Illinois','postcode':'62703','country':'US','email':'RobertZJohnson@einrot.com','phone': '217-585-5994'}" --shipping="{'first_name':'Robert Z.','last_name':'Johnson','company':'Ixolit','address_1':'242 University Hill Road','address_2':'','city':'Springfield','state':'Illinois','postcode':'62703','country':'US','email':'RobertZJohnson@einrot.com','phone': '217-585-5994'}"
+        wp --allow-root --user=user@example.com wc customer create --email="RobertZJohnson@einrot.com" --username="${DEMO_CUSTOMER_USER}" --password="${DEMO_CUSTOMER_PASSWORD}" --first_name="Robert Z." --last_name="Johnson" --billing="{'first_name':'Robert Z.','last_name':'Johnson','company':'Ixolit','address_1':'242 University Hill Road','address_2':'','city':'Springfield','state':'Illinois','postcode':'62703','country':'US','email':'RobertZJohnson@einrot.com','phone': '217-585-5994'}" --shipping="{'first_name':'Robert Z.','last_name':'Johnson','company':'Ixolit','address_1':'242 University Hill Road','address_2':'','city':'Springfield','state':'Illinois','postcode':'62703','country':'US','email':'RobertZJohnson@einrot.com','phone': '217-585-5994'}" 2>/dev/null
     fi
 
     unlink /opt/bitnami/wordpress/wp-config.php
