@@ -66,7 +66,8 @@ if [ ! -f "/setup_complete" ]; then
     wp --allow-root option set siteurl "${URL}"
     wp --allow-root option set home "${URL}"
     wp --allow-root option set show_on_front page
-    wp --allow-root option set page_on_front 7
+    SHOP_PAGE_ID=$(mysql -B -h mariadb -u root bitnami_wordpress -e "select ID from wp_posts where post_title = 'Shop';" | tail -n1)
+    wp --allow-root option set page_on_front "${SHOP_PAGE_ID}"
     wp --allow-root option set woocommerce_store_address "${SHOP_ADDRESS}"
     wp --allow-root option set woocommerce_store_city "${SHOP_CITY}"
     wp --allow-root option set woocommerce_store_postcode "${SHOP_ZIP}"
