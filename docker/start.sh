@@ -145,6 +145,7 @@ if [ ! -f "/setup_complete" ]; then
         ln -s /opt/bitnami/wordpress /bitnami/wordpress
         chown -R bitnami:daemon /opt/bitnami/wordpress
         chown -R bitnami:daemon /bitnami/wordpress
+        chmod -R 777 /opt/bitnami/wordpress/wp-content/uploads
         wp --allow-root cache flush
         
         # Keep script Running
@@ -156,6 +157,7 @@ else
     ln -s /opt/bitnami/wordpress /bitnami/wordpress
     chown -R bitnami:daemon /opt/bitnami/wordpress
     chown -R bitnami:daemon /bitnami/wordpress
+    chmod -R 777 /opt/bitnami/wordpress/wp-content/uploads
     wp --allow-root cache flush
 
     # Keep script Running
