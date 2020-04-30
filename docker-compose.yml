@@ -12,8 +12,8 @@ services:
       - '.:/source'
       - '${BUILD_ARTIFACT:-undefined}:/dist/paymentgatewaycloud.zip'
     ports:
-      - '80:80'
-      - '443:443'
+      - '80:8080'
+      - '443:8443'
     depends_on:
       - mariadb
     environment:
@@ -43,8 +43,8 @@ services:
       - WORDPRESS_EMAIL=${WORDPRESS_EMAIL:-user@example.com}
       - WORDPRESS_FIRST_NAME=${WORDPRESS_FIRST_NAME:-FirstName}
       - WORDPRESS_HTACCESS_OVERRIDE_NONE=${WORDPRESS_HTACCESS_OVERRIDE_NONE:-yes}
-      - WORDPRESS_HTTPS_PORT=${WORDPRESS_HTTPS_PORT:-443}
-      - WORDPRESS_HTTP_PORT=${WORDPRESS_HTTP_PORT:-80}
+      - WORDPRESS_HTTPS_PORT=${WORDPRESS_HTTPS_PORT:-8443}
+      - WORDPRESS_HTTP_PORT=${WORDPRESS_HTTP_PORT:-8080}
       - WORDPRESS_LAST_NAME=${WORDPRESS_LAST_NAME:-LastName}
       - WORDPRESS_PASSWORD=${WORDPRESS_PASSWORD:-bitnami}
       - WORDPRESS_SCHEME=${WORDPRESS_SCHEME:-http}
