@@ -143,8 +143,6 @@ if [ ! -f "/opt/setup_complete" ]; then
     else
         rm -rf /bitnami/wordpress
         ln -s /opt/bitnami/wordpress /bitnami/wordpress
-        # chown -R bitnami:daemon /opt/bitnami/wordpress
-        # chown -R bitnami:daemon /bitnami/wordpress
         chmod -R 777 /opt/bitnami/wordpress/wp-content/uploads
         wp --allow-root cache flush
         
@@ -155,8 +153,6 @@ if [ ! -f "/opt/setup_complete" ]; then
 else
     rm -rf /bitnami/wordpress
     ln -s /opt/bitnami/wordpress /bitnami/wordpress
-    chown -R bitnami:daemon /opt/bitnami/wordpress
-    chown -R bitnami:daemon /bitnami/wordpress
     chmod -R 777 /opt/bitnami/wordpress/wp-content/uploads
     wp --allow-root cache flush
 
