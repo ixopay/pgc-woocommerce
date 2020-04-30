@@ -10,7 +10,7 @@ echo -e "Starting Wordpress"
 
 /app-entrypoint.sh httpd -f /opt/bitnami/apache/conf/httpd.conf -DFOREGROUND &
 
-if [ ! -f "/setup_complete" ]; then
+if [ ! -f "/opt/setup_complete" ]; then
 
     echo -e "Waiting for Wordpress to Initialize"
 
@@ -118,8 +118,8 @@ if [ ! -f "/setup_complete" ]; then
 
     echo -e "Import Products"
 
-    curl -s -o /sample_products.xml https://raw.githubusercontent.com/woocommerce/woocommerce/master/sample-data/sample_products.xml || error_exit "Could not load sample data"
-    wp --allow-root import /sample_products.xml --quiet --authors=create --skip=image_resize > /dev/null  || error_exit "Could not install sample data"
+    curl -s -o /tmp/sample_products.xml https://raw.githubusercontent.com/woocommerce/woocommerce/master/sample-data/sample_products.xml || error_exit "Could not load sample data"
+    wp --allow-root import /tmp/sample_products.xml --quiet --authors=create --skip=image_resize > /dev/null  || error_exit "Could not install sample data"
 
     if [ "$DEMO_CUSTOMER_USER" ] && [ "$DEMO_CUSTOMER_PASSWORD" ]; then
         echo -e "Creating Demo Customer"
@@ -135,7 +135,7 @@ if [ ! -f "/setup_complete" ]; then
 
     echo -e "Setup Complete! You can access the instance at: http://${URL}/"
 
-    touch /setup_complete
+    touch /opt/setup_complete
 
     if [ $PRECONFIGURE ]; then
         echo -e "Prepare for Pre-Configured build"
@@ -143,8 +143,8 @@ if [ ! -f "/setup_complete" ]; then
     else
         rm -rf /bitnami/wordpress
         ln -s /opt/bitnami/wordpress /bitnami/wordpress
-        chown -R bitnami:daemon /opt/bitnami/wordpress
-        chown -R bitnami:daemon /bitnami/wordpress
+        # chown -R bitnami:daemon /opt/bitnami/wordpress
+        # chown -R bitnami:daemon /bitnami/wordpress
         chmod -R 777 /opt/bitnami/wordpress/wp-content/uploads
         wp --allow-root cache flush
         
