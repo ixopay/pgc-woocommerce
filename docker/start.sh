@@ -32,7 +32,7 @@ if [ ! -f "/setup_complete" ]; then
     if [ "${BUILD_ARTIFACT}" != "undefined" ]; then
         if [ -f /dist/paymentgatewaycloud.zip ]; then
             echo -e "Using Supplied zip ${BUILD_ARTIFACT}"
-            cp /dist/paymentgatewaycloud.zip /paymentgatewaycloud.zip
+            cp /dist/paymentgatewaycloud.zip /tmp/paymentgatewaycloud.zip
         else
             error_exit "Faled to build!, there is no such file: ${BUILD_ARTIFACT}"
         fi
@@ -52,13 +52,13 @@ if [ ! -f "/setup_complete" ]; then
             echo "y" | php build.php "gateway.mypaymentprovider.com" "${WHITELABEL}" || error_exit "Could not Whitelabel Extension"
             DEST_FILE="$(echo "y" | php build.php "gateway.mypaymentprovider.com" "${WHITELABEL}" | tail -n 1 | sed 's/.*Created file "\(.*\)".*/\1/g')" || error_exit "Could not extract Zip File Name"
             DB_FIELD_NAME="$(php /whitelabel.php snakeCase "${WHITELABEL}")" || error_exit "Could not extract Database Name Field"
-            cp "${DEST_FILE}" /paymentgatewaycloud.zip
+            cp "${DEST_FILE}" /tmp/paymentgatewaycloud.zip
         else
            mv src paymentgatewaycloud || error_exit "Could not find Source Files"
-           zip -q -r /paymentgatewaycloud.zip paymentgatewaycloud
+           zip -q -r /tmp/paymentgatewaycloud.zip paymentgatewaycloud
         fi
     fi
-    wp --allow-root plugin install /paymentgatewaycloud.zip --activate || error_exit "Could not Install PGC Extension"
+    wp --allow-root plugin install /tmp/paymentgatewaycloud.zip --activate || error_exit "Could not Install PGC Extension"
 
     echo -e "Configuring Extensions"
 
