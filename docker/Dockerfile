@@ -1,6 +1,7 @@
 FROM bitnami/wordpress:5
 
-EXPOSE 80
+EXPOSE 8080
+EXPOSE 8443
 
 VOLUME /bitnami
 VOLUME /source
