@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## v1.7.3 (2020-05-07)
+### Added
+- SDK information
+- Payment failure adjustment
+
+### Fixed
+- Callback bug
+
 ## v1.7.2 (2020-02-20)
 ### Changed
 - Add card type to script handle for js asset
