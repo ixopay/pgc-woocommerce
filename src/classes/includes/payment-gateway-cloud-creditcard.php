@@ -163,7 +163,11 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
                 break;
         }
 
-        $transaction->setTransactionId($this->encodeOrderId($orderId))
+        $orderTxId = $this->encodeOrderId($orderId);
+        // keep track of last tx id 
+        $this->order->add_meta_data('orderTxId', $orderTxId, true); 
+        $this->order->save_meta_data();
+        $transaction->setTransactionId($orderTxId)
             ->setAmount(floatval($this->order->get_total()))
             ->setCurrency($this->order->get_currency())
             ->setCustomer($customer)
@@ -171,8 +175,8 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
             ->setCallbackUrl($this->callbackUrl)
             ->setCancelUrl(wc_get_checkout_url())
             ->setSuccessUrl($this->paymentSuccessUrl($this->order))
-            ->setErrorUrl(add_query_arg(['gateway_return_result' => 'error'], $this->order->get_checkout_payment_url(false)));
-
+            ->setErrorUrl(add_query_arg(['gateway_return_result' => 'error'], $this->get_option('integrationKey') ? $this->order->get_checkout_payment_url(false) : wc_get_checkout_url()));
+        
         /**
          * integration key is set -> seamless
          * proceed to pay now page or apply submitted transaction token
@@ -275,6 +279,12 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
 
         $callbackResult = $client->readCallback(file_get_contents('php://input'));
         $this->order = new WC_Order($this->decodeOrderId($callbackResult->getTransactionId()));
+
+        // check if callback data is coming from the last (=newest+relevant) tx attempt, otherwise ignore it
+        if ($this->order->get_meta('orderTxId') !== $callbackResult->getTransactionId()) {
+            die("OK");
+        }
+        
         if ($callbackResult->getResult() == \PaymentGatewayCloud\Client\Callback\Result::RESULT_OK) {
             switch ($callbackResult->getTransactionType()) {
                 case \PaymentGatewayCloud\Client\Callback\Result::TYPE_DEBIT:
