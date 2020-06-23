@@ -34,6 +34,8 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
         $this->title = $this->get_option('title');
         $this->callbackUrl = add_query_arg('wc-api', 'wc_' . $this->id, home_url('/'));
 
+        
+
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
         add_action('wp_enqueue_scripts', function () {
             wp_register_script('payment_js', $this->get_option('apiHost') . 'js/integrated/payment.min.js', [], PAYMENT_GATEWAY_CLOUD_EXTENSION_VERSION, false);
@@ -47,6 +49,8 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
             return str_replace(' src', ' data-main="payment-js" src', $tag);
         }, 10, 2);
         add_filter('woocommerce_available_payment_gateways', [$this, 'hide_payment_gateways_on_pay_for_order_page'], 100, 1);
+ 
+    
     }
 
     public function hide_payment_gateways_on_pay_for_order_page($available_gateways)
@@ -381,59 +385,43 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
     {
         wp_enqueue_script('payment_js');
         wp_enqueue_script('payment_gateway_cloud_js_' . $this->id);
-        $years = range(date('Y'), date('Y') + 50);
-        $yearSelect = '';
-        foreach ($years as $year) {
-            $yearSelect .= '<option>' . $year . '</option>';
-        }
+
         echo '<script>window.integrationKey="' . $this->get_option('integrationKey') . '";</script>
-        <div id="payment_gateway_cloud_seamless">
-        <div id="payment_gateway_cloud_errors"></div>
-        <input type="hidden" id="payment_gateway_cloud_token" name="token">
-        
-        <div class="form-row form-row-wide">
-            <label for="payment_gateway_cloud_seamless_card_holder">Card holder</label>
-            <div class="woocommerce-input-wrapper">
-            <input type="text" class="input-text " id="payment_gateway_cloud_seamless_card_holder">
+        <div class="payment_box" style="padding: 25px; background-color: #fff; border: 1px solid #ccc; width: 480px;">
+            <div id="payment_gateway_cloud_seamless">
+                <div id="payment_gateway_cloud_errors"></div>
+                <input type="hidden" id="payment_gateway_cloud_token" name="token">
+                <p class="form-row form-row-wide">
+                    <label for="payment_gateway_cloud_seamless_card_holder">Card holder&nbsp;<abbr class="required" title="required">*</abbr></label>
+                    <span class="woocommerce-input-wrapper">
+                        <input type="text" class="input-text" id="payment_gateway_cloud_seamless_card_holder">
+                    </span>
+                </p>
+                <p class="form-row form-row-wide" style="margin-bottom: 0">
+                    <label for="payment_gateway_cloud_seamless_card_number">Card number&nbsp;<abbr class="required" title="required">*</abbr></label>
+                    <span class="woocommerce-input-wrapper">
+                        <div id="payment_gateway_cloud_seamless_card_number" class="input-text" style="padding: 0; width: 100%;"></div>
+                    </span>
+                </p>
+                <p class="form-row form-row-first">
+                    <label for="payment_gateway_cloud_seamless_expiry_month">Month&nbsp;<abbr class="required" title="required">*</abbr></label>
+                    <span class="woocommerce-input-wrapper">
+                        <input type="text" class="input-text" id="payment_gateway_cloud_seamless_expiry_month" maxlength="2">
+                    </span>
+                </p>
+                <p class="form-row form-row-last">
+                    <label for="payment_gateway_cloud_seamless_expiry_year">Year&nbsp;<abbr class="required" title="required">*</abbr></label>
+                    <span class="woocommerce-input-wrapper">
+                        <input type="text" class="input-text" id="payment_gateway_cloud_seamless_expiry_year" maxlength="4">
+                    </span>
+                </p>
+                <p class="form-row form-row-wide" style="margin-bottom: 0">
+                    <label for="payment_gateway_cloud_seamless_cvv">CVV&nbsp;<abbr class="required" title="required">*</abbr></label>
+                    <span class="woocommerce-input-wrapper">
+                        <div id="payment_gateway_cloud_seamless_cvv" class="input-text" style="padding: 0;"></div>
+                    </span>
+                </p>   
             </div>
-        </div>
-        <div class="form-row form-row-wide">
-            <label for="payment_gateway_cloud_seamless_card_number">Card number</label>
-            <div class="woocommerce-input-wrapper" style="">
-            <div id="payment_gateway_cloud_seamless_card_number" class="input-text" style="padding: 0; width: 100%;"></div>
-            </div>
-        </div>
-        <div class="form-row form-row-wide">
-            <label for="payment_gateway_cloud_seamless_cvv">CVV</label>
-            <div class="woocommerce-input-wrapper" style="">
-            <div id="payment_gateway_cloud_seamless_cvv" class="input-text " style="padding: 0; width: 100%;"></div>
-            </div>
-        </div>
-        <div class="form-row form-row-wide">
-            <label for="payment_gateway_cloud_seamless_expiry_month">Month</label>
-            <div class="woocommerce-input-wrapper">
-            <select type="text" class="input-text " id="payment_gateway_cloud_seamless_expiry_month">
-              <option>01</option>
-              <option>02</option>
-              <option>03</option>
-              <option>04</option>
-              <option>05</option>
-              <option>06</option>
-              <option>07</option>
-              <option>08</option>
-              <option>09</option>
-              <option>10</option>
-              <option>11</option>
-              <option>12</option>
-            </select>
-            </div>
-        </div>
-        <div class="form-row form-row-wide">
-            <label for="payment_gateway_cloud_seamless_expiry_year">Year</label>
-            <div class="woocommerce-input-wrapper">
-            <select type="text" class="input-text " id="payment_gateway_cloud_seamless_expiry_year">' . $yearSelect . '</select>
-            </div>
-        </div>
         </div>';
     }
 
