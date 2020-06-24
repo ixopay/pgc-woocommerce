@@ -151,9 +151,10 @@ if [ ! -f "/opt/bitnami/setup_complete" ]; then
     fi
 
 else
-    rm -rf /bitnami/wordpress
-    ln -s /opt/bitnami/wordpress /bitnami/wordpress
-    chmod -R 777 /opt/bitnami/wordpress/wp-content/uploads
+    sudo rm -rf /bitnami/wordpress
+    sudo ln -s /opt/bitnami/wordpress /bitnami/wordpress
+    sudo chmod -R 777 /opt/bitnami/wordpress/wp-content/uploads
+    sudo chown -R bitnami /opt/bitnami
     wp --allow-root cache flush
 
     # Keep script Running
