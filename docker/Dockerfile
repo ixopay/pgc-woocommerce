@@ -59,6 +59,8 @@ RUN sed -i "s/_default_:80/_default_:8080/g" /opt/bitnami/apache/conf/bitnami/bi
 RUN sed -i "s/Listen 443/Listen 8443/g" /opt/bitnami/apache/conf/bitnami/bitnami-ssl.conf  /opt/bitnami/apache/conf/extra/httpd-ssl.conf
 RUN sed -i "s/_default_:443/_default_:8443/g" /opt/bitnami/apache/conf/bitnami/bitnami-ssl.conf /opt/bitnami/apache/conf/extra/httpd-ssl.conf
 
+RUN chmod -R 755 /opt/bitnami/apache/logs && chown -R 1001 /opt/bitnami/apache/logs
+
 USER 1001
 
 COPY start.sh /start.sh
