@@ -45,12 +45,16 @@ ENV PRECONFIGURE="" \
     WHITELABEL="" \
     BUILD_ARTIFACT="undefined"
 
+USER root
+
 RUN apt-get update && apt-get install --no-install-recommends -y \
   git \
   zip \
   unzip \
   vim-tiny \
   && apt-get autoclean
+
+USER bitnami
 
 COPY start.sh /start.sh
 COPY whitelabel_vars.php /whitelabel.php
