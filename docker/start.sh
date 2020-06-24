@@ -14,7 +14,7 @@ if [ ! -f "/opt/setup_complete" ]; then
 
     echo -e "Waiting for Wordpress to Initialize"
 
-    while [ ! -f "/bitnami/wordpress/.initialized" ]; do sleep 2s; done
+    while [ ! -f "/bitnami/wordpress/.initialized" ]; do sudo chown -R bitnami /bitnami; sleep 1s; done
 
     while (! $(curl --silent http://localhost:8080 | grep "ust another WordPress site" > /dev/null)); do sleep 2s; done
 
