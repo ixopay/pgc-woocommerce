@@ -55,7 +55,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   && apt-get autoclean
 
 RUN chown -R bitnami /.nami
-RUN chown -R bitnami /opt/bitnami
+RUN chown -R bitnami /opt
 RUN chown -R bitnami /bitnami
 
 USER bitnami
