@@ -8,7 +8,7 @@ error_exit() {
 
 echo -e "Starting Wordpress"
 
-sudo -E su -c '/app-entrypoint.sh /opt/bitnami/nami/bin/nami start --foreground apache' &
+sudo -E su -c 'PATH="$PATH:/opt/bitnami/nami/bin/" /app-entrypoint.sh nami start --foreground apache' &
 
 if [ ! -f "/opt/setup_complete" ]; then
 
