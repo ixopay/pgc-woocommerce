@@ -10,7 +10,7 @@ echo -e "Starting Wordpress"
 
 /app-entrypoint.sh nami start --foreground apache &
 
-if [ ! -f "/opt/setup_complete" ]; then
+if [ ! -f "/opt/bitnami/setup_complete" ]; then
 
     echo -e "Waiting for Wordpress to Initialize"
 
@@ -135,7 +135,7 @@ if [ ! -f "/opt/setup_complete" ]; then
 
     echo -e "Setup Complete! You can access the instance at: http://${URL}/"
 
-    touch /opt/setup_complete
+    touch /opt/bitnami/setup_complete
 
     if [ $PRECONFIGURE ]; then
         echo -e "Prepare for Pre-Configured build"
