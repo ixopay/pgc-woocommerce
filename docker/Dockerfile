@@ -1,4 +1,4 @@
-FROM bitnami/wordpress:5
+FROM bitnami/wordpress:5-debian-10
 
 EXPOSE 8080
 EXPOSE 8443
@@ -45,20 +45,12 @@ ENV PRECONFIGURE="" \
     WHITELABEL="" \
     BUILD_ARTIFACT="undefined"
 
-USER root
-
 RUN apt-get update && apt-get install --no-install-recommends -y \
   git \
   zip \
   unzip \
   vim-tiny \
   && apt-get autoclean
-
-RUN chmod -R 755 /opt/bitnami/apache/logs && chown -R bitnami /opt/bitnami/apache/logs
-
-#RUN setcap CAP_NET_BIND_SERVICE=+eip /opt/bitnami/apache/bin/httpd
-
-#USER bitnami
 
 COPY start.sh /start.sh
 COPY whitelabel_vars.php /whitelabel.php

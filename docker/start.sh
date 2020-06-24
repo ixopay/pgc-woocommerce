@@ -16,7 +16,7 @@ if [ ! -f "/opt/setup_complete" ]; then
 
     while [ ! -f "/bitnami/wordpress/.initialized" ]; do sleep 2s; done
 
-    while (! $(curl --silent http://localhost:80 | grep "ust another WordPress site" > /dev/null)); do sleep 2s; done
+    while (! $(curl --silent http://localhost:8080 | grep "ust another WordPress site" > /dev/null)); do sleep 2s; done
 
     echo -e "Removing inactive plugins"
 
