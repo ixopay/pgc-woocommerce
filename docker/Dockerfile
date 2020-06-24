@@ -47,9 +47,6 @@ ENV PRECONFIGURE="" \
 
 USER root
 
-RUN sed -i "s/Listen 80/Listen 8085/g" /opt/bitnami/apache/conf/httpd.conf
-RUN sed -i "s/Listen 443/Listen 8086/g" /opt/bitnami/apache/conf/httpd.conf
-
 RUN apt-get update && apt-get install --no-install-recommends -y \
   git \
   zip \
