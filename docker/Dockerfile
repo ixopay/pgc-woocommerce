@@ -54,6 +54,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   vim-tiny \
   && apt-get autoclean
 
+RUN sed -i "s/Listen 80/Listen 8080/g" /opt/bitnami/apache/conf/httpd.conf
+RUN sed -i "s/_default_:80/_default_:8080/g" /opt/bitnami/apache/conf/bitnami/bitnami.conf
 RUN sed -i "s/Listen 443/Listen 8443/g" /opt/bitnami/apache/conf/bitnami/bitnami-ssl.conf  /opt/bitnami/apache/conf/extra/httpd-ssl.conf
 RUN sed -i "s/_default_:443/_default_:8443/g" /opt/bitnami/apache/conf/bitnami/bitnami-ssl.conf /opt/bitnami/apache/conf/extra/httpd-ssl.conf
 
