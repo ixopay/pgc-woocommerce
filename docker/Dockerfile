@@ -1,4 +1,4 @@
-FROM bitnami/wordpress:5
+FROM bitnami/wordpress:5-debian-10
 
 EXPOSE 8080
 EXPOSE 8443

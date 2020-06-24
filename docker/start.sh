@@ -8,13 +8,13 @@ error_exit() {
 
 echo -e "Starting Wordpress"
 
-/app-entrypoint.sh httpd -f /opt/bitnami/apache/conf/httpd.conf -DFOREGROUND &
+/app-entrypoint.sh nami start --foreground apache &
 
-if [ ! -f "/opt/setup_complete" ]; then
+if [ ! -f "/opt/bitnami/setup_complete" ]; then
 
     echo -e "Waiting for Wordpress to Initialize"
 
-    while [ ! -f "/bitnami/wordpress/.initialized" ]; do sleep 2s; done
+    while [ ! -f "/bitnami/wordpress/.initialized" ]; do sudo chown -R bitnami /bitnami; sleep 1s; done
 
     while (! $(curl --silent http://localhost:8080 | grep "ust another WordPress site" > /dev/null)); do sleep 2s; done
 
@@ -135,7 +135,7 @@ if [ ! -f "/opt/setup_complete" ]; then
 
     echo -e "Setup Complete! You can access the instance at: http://${URL}/"
 
-    touch /opt/setup_complete
+    touch /opt/bitnami/setup_complete
 
     if [ $PRECONFIGURE ]; then
         echo -e "Prepare for Pre-Configured build"
@@ -151,9 +151,10 @@ if [ ! -f "/opt/setup_complete" ]; then
     fi
 
 else
-    rm -rf /bitnami/wordpress
-    ln -s /opt/bitnami/wordpress /bitnami/wordpress
-    chmod -R 777 /opt/bitnami/wordpress/wp-content/uploads
+    sudo rm -rf /bitnami/wordpress
+    sudo ln -s /opt/bitnami/wordpress /bitnami/wordpress
+    sudo chmod -R 777 /opt/bitnami/wordpress/wp-content/uploads
+    sudo chown -R bitnami /opt/bitnami
     wp --allow-root cache flush
 
     # Keep script Running

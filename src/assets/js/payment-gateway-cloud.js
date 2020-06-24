@@ -45,8 +45,7 @@
         var $seamlessForm = $('#payment_gateway_cloud_seamless');
         var $seamlessCardHolderInput = $('#payment_gateway_cloud_seamless_card_holder', $seamlessForm);
         var $seamlessEmailInput = $('#payment_gateway_cloud_seamless_email', $seamlessForm);
-        var $seamlessExpiryMonthInput = $('#payment_gateway_cloud_seamless_expiry_month', $seamlessForm);
-        var $seamlessExpiryYearInput = $('#payment_gateway_cloud_seamless_expiry_year', $seamlessForm);
+        var $seamlessExpiryInput = $('#payment_gateway_cloud_seamless_expiry', $seamlessForm);
         var $seamlessCardNumberInput = $('#payment_gateway_cloud_seamless_card_number', $seamlessForm);
         var $seamlessCvvInput = $('#payment_gateway_cloud_seamless_cvv', $seamlessForm);
 
@@ -66,9 +65,14 @@
             $seamlessForm.show();
             var style = {
                 'border': $seamlessCardHolderInput.css('border'),
+                'border-radius': $seamlessCardHolderInput.css('border-radius'),
                 'height': $seamlessCardHolderInput.css('height'),
                 'padding': $seamlessCardHolderInput.css('padding'),
                 'font-size': $seamlessCardHolderInput.css('font-size'),
+                'font-weight': $seamlessCardHolderInput.css('font-weight'),
+                'font-family': $seamlessCardHolderInput.css('font-family'),
+                'letter-spacing': '0.1px',
+                'word-spacing': '1.7px',
                 'color': $seamlessCardHolderInput.css('color'),
                 'background': $seamlessCardHolderInput.css('background'),
             };
@@ -98,12 +102,8 @@
                 $seamlessCardHolderInput.closest('.form-group').addClass('has-error');
                 validDetails = false;
             }
-            if (!$seamlessExpiryMonthInput.val().length) {
-                $seamlessExpiryMonthInput.closest('.form-group').addClass('has-error');
-                validDetails = false;
-            }
-            if (!$seamlessExpiryYearInput.val().length) {
-                $seamlessExpiryYearInput.closest('.form-group').addClass('has-error');
+            if (!$seamlessExpiryInput.val().length) {
+                $seamlessExpiryInput.closest('.form-group').addClass('has-error');
                 validDetails = false;
             }
             if (validNumber && validCvv && validDetails) {
@@ -118,11 +118,12 @@
         };
 
         var submit = function (success, error) {
+            var expiryData = $seamlessExpiryInput.val().split('/');
             payment.tokenize(
                 {
                     card_holder: $seamlessCardHolderInput.val(),
-                    month: $seamlessExpiryMonthInput.val(),
-                    year: $seamlessExpiryYearInput.val(),
+                    month: expiryData[0],
+                    year: '20' + expiryData[1],
                     email: $seamlessEmailInput.val()
                 },
                 function (token, cardData) {
