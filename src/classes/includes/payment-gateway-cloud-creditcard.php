@@ -387,9 +387,9 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
         wp_enqueue_script('payment_gateway_cloud_js_' . $this->id);
 
         echo '<script>window.integrationKey="' . $this->get_option('integrationKey') . '";</script>
-        <div class="payment_box" style="padding: 25px; background-color: #fff; border: 1px solid #ccc; width: 480px; height: 330px">
+        <div id="payment_gateway_cloud_errors"></div>
+        <div class="payment_box" style="padding: 25px; background-color: #fff; border-radius: 3px; width: 450px; height: 330px">
             <div id="payment_gateway_cloud_seamless">
-                <div id="payment_gateway_cloud_errors"></div>
                 <input type="hidden" id="payment_gateway_cloud_token" name="token">
                 <p class="form-row form-row-wide">
                     <label for="payment_gateway_cloud_seamless_card_holder">Cardholder Name&nbsp;<abbr class="required" title="required">*</abbr></label>
@@ -410,10 +410,10 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
                     </span>
                 </p>
                 <p style="margin-bottom: 0; margin-left: 20px">
-                    <label for="payment_gateway_cloud_seamless_cvv" style="padding-left: 198px">CVC/CVV Code&nbsp;<abbr class="required" title="required" style="color: #b22222;
+                    <label for="payment_gateway_cloud_seamless_cvv" style="padding-left: 193px">CVC/CVV Code&nbsp;<abbr class="required" title="required" style="color: #b22222;
                     text-decoration: none;">*</abbr></label>
                     <span class="woocommerce-input-wrapper">
-                        <div class="form-row form-row-last" id="payment_gateway_cloud_seamless_cvv" style="padding: 0; height: 52px; width: 210px; border-radius: 3px"></div>
+                        <div class="form-row form-row-last" id="payment_gateway_cloud_seamless_cvv" style="padding: 0; height: 52px; width: 187px; border-radius: 3px"></div>
                     </span>
                 </p>   
             </div>
