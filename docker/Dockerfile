@@ -1,4 +1,4 @@
-FROM bitnami/wordpress:5
+FROM bitnami/wordpress:5-debian-10
 
 EXPOSE 8080
 EXPOSE 8443
@@ -47,9 +47,6 @@ ENV PRECONFIGURE="" \
 
 USER root
 
-RUN sed -i "s/Listen 80/Listen 8085/g" /opt/bitnami/apache/conf/httpd.conf
-RUN sed -i "s/Listen 443/Listen 8086/g" /opt/bitnami/apache/conf/httpd.conf
-
 RUN apt-get update && apt-get install --no-install-recommends -y \
   git \
   zip \
@@ -57,7 +54,11 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   vim-tiny \
   && apt-get autoclean
 
-USER 1001
+RUN chown -R bitnami /.nami
+RUN chown -R bitnami /opt/bitnami
+RUN chown -R bitnami /bitnami
+
+USER bitnami
 
 COPY start.sh /start.sh
 COPY whitelabel_vars.php /whitelabel.php
