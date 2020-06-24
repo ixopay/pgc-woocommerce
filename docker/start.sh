@@ -8,7 +8,7 @@ error_exit() {
 
 echo -e "Starting Wordpress"
 
-/app-entrypoint.sh /run.sh &
+/app-entrypoint.sh httpd -f /opt/bitnami/apache/conf/httpd.conf -DFOREGROUND &
 
 if [ ! -f "/opt/setup_complete" ]; then
 
