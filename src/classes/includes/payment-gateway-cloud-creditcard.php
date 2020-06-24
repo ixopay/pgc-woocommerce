@@ -387,38 +387,33 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
         wp_enqueue_script('payment_gateway_cloud_js_' . $this->id);
 
         echo '<script>window.integrationKey="' . $this->get_option('integrationKey') . '";</script>
-        <div class="payment_box" style="padding: 25px; background-color: #fff; border: 1px solid #ccc; width: 480px;">
+        <div class="payment_box" style="padding: 25px; background-color: #fff; border: 1px solid #ccc; width: 480px; height: 330px">
             <div id="payment_gateway_cloud_seamless">
                 <div id="payment_gateway_cloud_errors"></div>
                 <input type="hidden" id="payment_gateway_cloud_token" name="token">
                 <p class="form-row form-row-wide">
-                    <label for="payment_gateway_cloud_seamless_card_holder">Card holder&nbsp;<abbr class="required" title="required">*</abbr></label>
+                    <label for="payment_gateway_cloud_seamless_card_holder">Cardholder Name&nbsp;<abbr class="required" title="required">*</abbr></label>
                     <span class="woocommerce-input-wrapper">
-                        <input type="text" class="input-text" id="payment_gateway_cloud_seamless_card_holder">
+                        <input type="text" class="input-text" id="payment_gateway_cloud_seamless_card_holder" style="border-radius: 3px">
                     </span>
                 </p>
                 <p class="form-row form-row-wide" style="margin-bottom: 0">
-                    <label for="payment_gateway_cloud_seamless_card_number">Card number&nbsp;<abbr class="required" title="required">*</abbr></label>
+                    <label for="payment_gateway_cloud_seamless_card_number">Card Number&nbsp;<abbr class="required" title="required">*</abbr></label>
                     <span class="woocommerce-input-wrapper">
-                        <div id="payment_gateway_cloud_seamless_card_number" class="input-text" style="padding: 0; width: 100%;"></div>
+                        <div id="payment_gateway_cloud_seamless_card_number" class="input-text" style="padding: 0; width: 100%; border-radius: 3px"></div>
                     </span>
                 </p>
                 <p class="form-row form-row-first">
-                    <label for="payment_gateway_cloud_seamless_expiry_month">Month&nbsp;<abbr class="required" title="required">*</abbr></label>
+                    <label for="payment_gateway_cloud_seamless_expiry">Expiration Date&nbsp;<abbr class="required" title="required">*</abbr></label>
                     <span class="woocommerce-input-wrapper">
-                        <input type="text" class="input-text" id="payment_gateway_cloud_seamless_expiry_month" maxlength="2">
+                        <input type="text" class="input-text" id="payment_gateway_cloud_seamless_expiry" maxlength="5" placeholder="MM/YY" style="border-radius: 3px">
                     </span>
                 </p>
-                <p class="form-row form-row-last">
-                    <label for="payment_gateway_cloud_seamless_expiry_year">Year&nbsp;<abbr class="required" title="required">*</abbr></label>
+                <p style="margin-bottom: 0; margin-left: 20px">
+                    <label for="payment_gateway_cloud_seamless_cvv" style="padding-left: 198px">CVC/CVV Code&nbsp;<abbr class="required" title="required" style="color: #b22222;
+                    text-decoration: none;">*</abbr></label>
                     <span class="woocommerce-input-wrapper">
-                        <input type="text" class="input-text" id="payment_gateway_cloud_seamless_expiry_year" maxlength="4">
-                    </span>
-                </p>
-                <p class="form-row form-row-wide" style="margin-bottom: 0">
-                    <label for="payment_gateway_cloud_seamless_cvv">CVV&nbsp;<abbr class="required" title="required">*</abbr></label>
-                    <span class="woocommerce-input-wrapper">
-                        <div id="payment_gateway_cloud_seamless_cvv" class="input-text" style="padding: 0;"></div>
+                        <div class="form-row form-row-last" id="payment_gateway_cloud_seamless_cvv" style="padding: 0; height: 52px; width: 210px; border-radius: 3px"></div>
                     </span>
                 </p>   
             </div>
