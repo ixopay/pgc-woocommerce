@@ -8,9 +8,6 @@ error_exit() {
 
 echo -e "Starting Wordpress"
 
-sed -i "s/Listen 443/Listen 8443/g" /opt/bitnami/apache/conf/bitnami/bitnami-ssl.conf  /opt/bitnami/apache/conf/extra/httpd-ssl.conf
-sed -i "s/_default_:443/_default_:8443/g" /opt/bitnami/apache/conf/bitnami/bitnami-ssl.conf /opt/bitnami/apache/conf/extra/httpd-ssl.conf
-
 /app-entrypoint.sh httpd -f /opt/bitnami/apache/conf/httpd.conf -DFOREGROUND &
 
 if [ ! -f "/opt/setup_complete" ]; then
