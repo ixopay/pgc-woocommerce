@@ -54,8 +54,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   vim-tiny \
   && apt-get autoclean
 
-USER 1001
-
 COPY start.sh /start.sh
 COPY whitelabel_vars.php /whitelabel.php
 
