@@ -58,7 +58,7 @@ RUN chmod -R 755 /opt/bitnami/apache/logs && chown -R bitnami /opt/bitnami/apach
 
 #RUN setcap CAP_NET_BIND_SERVICE=+eip /opt/bitnami/apache/bin/httpd
 
-USER bitnami
+#USER bitnami
 
 COPY start.sh /start.sh
 COPY whitelabel_vars.php /whitelabel.php
