@@ -8,7 +8,7 @@ error_exit() {
 
 echo -e "Starting Wordpress"
 
-/app-entrypoint.sh nami start --foreground apache &
+/app-entrypoint.sh httpd -f /opt/bitnami/apache/conf/httpd.conf -DFOREGROUND &
 
 if [ ! -f "/opt/bitnami/setup_complete" ]; then
 
@@ -144,6 +144,8 @@ if [ ! -f "/opt/bitnami/setup_complete" ]; then
         rm -rf /bitnami/wordpress
         ln -s /opt/bitnami/wordpress /bitnami/wordpress
         chmod -R 777 /opt/bitnami/wordpress/wp-content/uploads
+        chown -R bitnami /opt/bitnami
+        chown -R daemon /opt/bitnami/wordpress
         wp --allow-root cache flush
         
         # Keep script Running
@@ -151,11 +153,14 @@ if [ ! -f "/opt/bitnami/setup_complete" ]; then
     fi
 
 else
-    sudo rm -rf /bitnami/wordpress
-    sudo ln -s /opt/bitnami/wordpress /bitnami/wordpress
-    sudo chmod -R 777 /opt/bitnami/wordpress/wp-content/uploads
-    sudo chown -R bitnami /opt/bitnami
+    rm -rf /bitnami/wordpress
+    ln -s /opt/bitnami/wordpress /bitnami/wordpress
+    chmod -R 777 /opt/bitnami/wordpress/wp-content/uploads
+    chown -R bitnami /opt/bitnami
+    chown -R daemon /opt/bitnami/wordpress
     wp --allow-root cache flush
+    SHOP_PAGE_ID=$(mysql -B -h mariadb -u root bitnami_wordpress -e "select ID from wp_posts where post_title = 'Shop';" | tail -n1)
+    wp --allow-root option set page_on_front "${SHOP_PAGE_ID}"
 
     # Keep script Running
     trap : TERM INT; (while true; do sleep 1m; done) & wait
