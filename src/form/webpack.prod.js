@@ -1,11 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const buildPath = path.resolve(__dirname, '..', 'assets/js');
 
 module.exports = {
+    devtool: 'source-map',
     entry: './src/index.js',
     output: {
         filename: 'paymentjs-form.js',
@@ -29,15 +30,41 @@ module.exports = {
                 test: /\.(scss|css|sass)$/,
                 use: [
                     {
-                        loader: 'css-loader'
+                        loader: "style-loader",
+                        options: {
+                            sourceMap: true
+                        }
                     },
                     {
-                        loader: 'postcss-loader'
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: true
+                        }
                     },
                     {
                         loader: 'sass-loader',
                         options: {
-                            outputStyle: 'compressed'
+                            outputStyle: 'expanded',
+                            sourceMap: true,
+                            sourceMapContents: true
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            name: '[path][name].[ext]?hash=[hash:20]',
+                            limit: 8192
                         }
                     }
                 ]
@@ -53,22 +80,12 @@ module.exports = {
         ]
     },
     plugins: [
-        new OptimizeCssAssetsPlugin({
-            cssProcessor: require('cssnano'),
-            cssProcessorOptions: {
-                map: {
-                    inline: false,
-                },
-                discardComments: {
-                    removeAll: true
-                },
-                discardUnused: false
-            },
-            canPrint: true
+        new HtmlWebpackPlugin({
+            template: './index.html',
+            inject: 'body',
         }),
-        new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery"
-        })
+        new webpack.LoaderOptionsPlugin({
+            minimize: true
+        }),      
     ]
 };

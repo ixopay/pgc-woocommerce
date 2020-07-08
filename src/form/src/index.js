@@ -1,7 +1,6 @@
 require('normalize.css/normalize.css');
 require('./styles/index.scss');
 
-import $ from 'jquery';
-
+var $ = require('jquery');
 window.jQuery = $;
 window.$ = $;

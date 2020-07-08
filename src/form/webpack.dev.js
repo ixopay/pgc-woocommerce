@@ -7,7 +7,7 @@ module.exports = {
     devtool: 'eval-cheap-module-source-map',
     entry: './src/index.js',
     devServer: {
-        port: 8080,
+        port: 8090,
         contentBase: path.join(__dirname, "dist")
     },
     node: {
@@ -83,10 +83,6 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './index.html',
             inject: true
-        }),
-        new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery"
         })
     ]
 };
