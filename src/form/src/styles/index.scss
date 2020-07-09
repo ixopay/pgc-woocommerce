@@ -6,34 +6,38 @@ $border-color: #969391;
 $border-radius: 4px;
 $label-color: #000;
 
-#order_review {
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 23px;
-}
+//#order_review {
+//    max-width: 600px;
+//    margin-left: auto;
+//    margin-right: auto;
+//    padding-left: 23px;
+//}
 
-#payment {
-    margin-left: 0;
-}
+//#payment {
+//    margin-left: 0;
+//}
 
-.wc_payment_method {
-    padding-right: 0;
-}
+//.wc_payment_method {
+//    padding-right: 0;
+///}
 
 .payment_box {
     border-radius: 4px;
     padding: 30px 25px;
     background-color: #fff;
 
-    &.payment_method_payment_gateway_cloud_creditcard {
-        padding: 8px;
-        width: 555px;
-        background-color: #eee;
-    }
+    //&.payment_method_payment_gateway_cloud_creditcard {
+    //    padding: 8px;
+    //    width: 555px;
+    //    background-color: #eee;
+    //}
 }
 
 .paymentjs-form {
+    width: 492px;
+    margin-left: auto;
+    margin-right: auto; 
+
     font-family: 'Roboto', sans-serif;
     font-weight: lighter;
     font-size: 16px;

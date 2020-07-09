@@ -1,5 +1,10 @@
 (function($){
+ 
     var $paymentForm = $('#payment_gateway_cloud_seamless').closest('form');
+
+    $paymentForm.css("max-width", "616px");
+    $paymentForm.css("margin", "0 auto");
+
     var $paymentFormSubmitButton = $("#place_order");
     var $paymentFormTokenInput = $('#payment_gateway_cloud_token');
     var $paymentGatewayCloudErrors = $('#payment_gateway_cloud_errors');
