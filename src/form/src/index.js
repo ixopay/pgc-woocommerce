@@ -1,6 +1,6 @@
 require('normalize.css/normalize.css');
 require('./styles/index.scss');
 
-var $ = require('jquery');
-window.jQuery = $;
-window.$ = $;
+document.addEventListener("DOMContentLoaded", () => {
+    jQuery('#payment_gateway_cloud_seamless').show();
+});

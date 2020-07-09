@@ -34,12 +34,12 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
         $this->title = $this->get_option('title');
         $this->callbackUrl = add_query_arg('wc-api', 'wc_' . $this->id, home_url('/'));
 
-        
-
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
         add_action('wp_enqueue_scripts', function () {
+            wp_register_style('googleFonts', 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');
             wp_register_script('payment_js', $this->get_option('apiHost') . 'js/integrated/payment.min.js', [], PAYMENT_GATEWAY_CLOUD_EXTENSION_VERSION, false);
             wp_register_script('payment_gateway_cloud_js_' . $this->id, plugins_url('/paymentgatewaycloud/assets/js/payment-gateway-cloud.js'), [], PAYMENT_GATEWAY_CLOUD_EXTENSION_VERSION, false);
+            wp_register_script('paymentjs_form', plugins_url('/paymentgatewaycloud/assets/js/paymentjs-form.js'), [], PAYMENT_GATEWAY_CLOUD_EXTENSION_VERSION, false);
         }, 999);
         add_action('woocommerce_api_wc_' . $this->id, [$this, 'process_callback']);
         add_filter('script_loader_tag', function ($tag, $handle) {
@@ -50,7 +50,6 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
         }, 10, 2);
         add_filter('woocommerce_available_payment_gateways', [$this, 'hide_payment_gateways_on_pay_for_order_page'], 100, 1);
  
-    
     }
 
     public function hide_payment_gateways_on_pay_for_order_page($available_gateways)
@@ -383,39 +382,70 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
 
     public function payment_fields()
     {
+        wp_enqueue_style('googleFonts');
         wp_enqueue_script('payment_js');
         wp_enqueue_script('payment_gateway_cloud_js_' . $this->id);
+        wp_enqueue_script('paymentjs_form');
 
         echo '<script>window.integrationKey="' . $this->get_option('integrationKey') . '";</script>
-        <div id="payment_gateway_cloud_errors"></div>
-        <div class="payment_box" style="padding: 25px; background-color: #fff; border-radius: 3px; width: 450px; height: 330px">
-            <div id="payment_gateway_cloud_seamless">
+        <div class="payment_box" style="padding: 30px 20px; background-color: #fff; border-radius: 3px;">
+            <div id="payment_gateway_cloud_errors"></div>
+            <div id="payment_gateway_cloud_seamless" class="paymentjs-form" style="display: none;">
                 <input type="hidden" id="payment_gateway_cloud_token" name="token">
-                <p class="form-row form-row-wide">
-                    <label for="payment_gateway_cloud_seamless_card_holder">Cardholder Name&nbsp;<abbr class="required" title="required">*</abbr></label>
-                    <span class="woocommerce-input-wrapper">
-                        <input type="text" class="input-text" id="payment_gateway_cloud_seamless_card_holder" style="border-radius: 3px">
-                    </span>
-                </p>
-                <p class="form-row form-row-wide" style="margin-bottom: 0">
-                    <label for="payment_gateway_cloud_seamless_card_number">Card Number&nbsp;<abbr class="required" title="required">*</abbr></label>
-                    <span class="woocommerce-input-wrapper">
-                        <div id="payment_gateway_cloud_seamless_card_number" class="input-text" style="padding: 0; width: 100%; border-radius: 3px"></div>
-                    </span>
-                </p>
-                <p class="form-row form-row-first">
-                    <label for="payment_gateway_cloud_seamless_expiry">Expiration Date&nbsp;<abbr class="required" title="required">*</abbr></label>
-                    <span class="woocommerce-input-wrapper">
-                        <input type="text" class="input-text" id="payment_gateway_cloud_seamless_expiry" maxlength="5" placeholder="MM/YY" style="border-radius: 3px">
-                    </span>
-                </p>
-                <p style="margin-bottom: 0; margin-left: 20px">
-                    <label for="payment_gateway_cloud_seamless_cvv" style="padding-left: 193px">CVC/CVV Code&nbsp;<abbr class="required" title="required" style="color: #b22222;
-                    text-decoration: none;">*</abbr></label>
-                    <span class="woocommerce-input-wrapper">
-                        <div class="form-row form-row-last" id="payment_gateway_cloud_seamless_cvv" style="padding: 0; height: 52px; width: 187px; border-radius: 3px"></div>
-                    </span>
-                </p>   
+
+                <div class="paymentjs-form-name">
+                    <div class="paymentjs-form-input-box name">
+                        <div class="paymentjs-form-input-icon"><i class="fal fa-user"></i></div>
+                        <div class="paymentjs-form-input">
+                            <div class="paymentjs-form-input-label">Name</div>
+                            <div class="paymentjs-form-input-wrapper">
+                                <input id="payment_gateway_cloud_seamless_card_holder" size="50" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="paymentjs-form-number-input">
+                    <div class="paymentjs-form-input-box cardnumber">
+                        <div class="paymentjs-card">
+                            <div class="paymentjs-type" id="cardType"></div>
+                            <div class="paymentjs-cardIcon" id="cardIcon">
+                                <i class="fal fa-credit-card"></i>
+                            </div>
+                        </div>
+                        <div class="paymentjs-form-input">
+                            <div class="paymentjs-form-input-label">Card Number</div>
+                            <div class="paymentjs-form-input-wrapper">
+                                <div id="payment_gateway_cloud_seamless_card_number" style="height: 28px; width: 251px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="paymentjs-form-second-row">
+                    <div class="paymentjs-form-input-box bottom-left">
+                        <div class="paymentjs-form-input-icon">
+                            <i class="fal fa-calendar-day"></i>
+                        </div>
+                        <div class="paymentjs-form-input">
+                            <div class="paymentjs-form-input-label">MM/JJ</div>
+                            <div class="paymentjs-form-input-wrapper"><input id="payment_gateway_cloud_seamless_expiry" maxlength="5" /></div>
+                        </div>
+                    </div>
+                    <div class="paymentjs-form-input-box bottom-right">
+                        <div class="paymentjs-form-input-icon">
+                            <i class="fal fa-lock"></i>
+                        </div>
+                        <div class="paymentjs-form-input">
+                            <div class="paymentjs-form-input-label">CVC</div>
+                            <div class="paymentjs-form-input-wrapper">
+                                <div id="payment_gateway_cloud_seamless_cvv" style="height: 29px; width: 185px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="paymentjs-available-cards">
+                    <div class="paymentjs-type visa"></div>
+                    <div class="paymentjs-type mastercard"></div>
+                </div>
             </div>
         </div>';
     }

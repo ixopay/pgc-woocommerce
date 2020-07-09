@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+</head>
+<body>
+<script data-main="payment-js" src="https://sandbox.ixopay.com/js/integrated/payment.1.2.min.js"></script>
+<script type="text/javascript">
+    var payment = new PaymentJs();
+    var cardType = null;
+
+    payment.init('HQWcEm6khjFMdGMMmK4v', 'number_div', 'cvv_div', function(payment) {
+        payment.setNumberStyle({ 
+            'border': 'none', 
+            'width': '251px',
+            'height': '28px',
+            'outline': 'none',
+            'font-size': '16px'
+        });
+        payment.setCvvStyle({ 
+            'border': 'none', 
+            'width': '185px',
+            'height': '29px',
+            'outline': 'none',
+            'font-size': '16px'
+        });
+        payment.numberOn('input', function(data) {
+            if (cardType !== data.cardType) {
+                cardType = data.cardType;
+                if (cardType === null) {
+                    $("#cardType").removeClass("visa");
+                    $("#cardType").removeClass("mastercard");
+                    $("#cardType").hide();
+                    $("#cardIcon").show();
+                } else if (cardType === 'mastercard') {
+                    console.log('mastercard');
+                    $("#cardType").addClass("mastercard");
+                    $("#cardType").removeClass("visa");
+                    $("#cardType").show();
+                    $("#cardIcon").hide();
+                } else if (cardType === 'visa') {
+                    $("#cardType").addClass("visa");
+                    $("#cardType").removeClass("mastercard");
+                    $("#cardType").show();
+                    $("#cardIcon").hide();
+                }
+            }
+        });
+    });
+</script>
+<div class="paymentjs-form">
+    <div class="paymentjs-form-name">
+        <div class="paymentjs-form-input-box name">
+            <div class="paymentjs-form-input-icon"><i class="fal fa-user"></i></div>
+            <div class="paymentjs-form-input">
+                <div class="paymentjs-form-input-label">Name</div>
+                <div class="paymentjs-form-input-wrapper">
+                    <input size="50" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="paymentjs-form-number-input">
+        <div class="paymentjs-form-input-box cardnumber">
+            <div class="paymentjs-card">
+                <div class="paymentjs-type" id="cardType"></div>
+                <div class="paymentjs-cardIcon" id="cardIcon">
+                    <i class="fal fa-credit-card"></i>
+                </div>
+            </div>
+            <div class="paymentjs-form-input">
+                <div class="paymentjs-form-input-label">Card Number</div>
+                <div class="paymentjs-form-input-wrapper">
+                    <div id="number_div" style="height: 28px; width: 251px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="paymentjs-form-second-row">
+        <div class="paymentjs-form-input-box bottom-left">
+            <div class="paymentjs-form-input-icon">
+                <i class="fal fa-calendar-day"></i>
+            </div>
+            <div class="paymentjs-form-input">
+                <div class="paymentjs-form-input-label">MM/JJ</div>
+                <div class="paymentjs-form-input-wrapper"><input maxlength="5" /></div>
+            </div>
+        </div>
+        <div class="paymentjs-form-input-box bottom-right">
+            <div class="paymentjs-form-input-icon">
+                <i class="fal fa-lock"></i>
+            </div>
+            <div class="paymentjs-form-input">
+                <div class="paymentjs-form-input-label">CVC</div>
+                <div class="paymentjs-form-input-wrapper">
+                    <div id="cvv_div" style="height: 29px; width: 185px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="paymentjs-available-cards">
+        <div class="paymentjs-type visa"></div>
+        <div class="paymentjs-type mastercard"></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="paymentjs-form.js"></script></body>
+</html>

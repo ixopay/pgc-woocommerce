@@ -30,13 +30,19 @@
                 if (cardType === null) {
                     $("#cardType").removeClass("visa");
                     $("#cardType").removeClass("mastercard");
+                    $("#cardType").hide();
+                    $("#cardIcon").show();
                 } else if (cardType === 'mastercard') {
                     console.log('mastercard');
                     $("#cardType").addClass("mastercard");
                     $("#cardType").removeClass("visa");
+                    $("#cardType").show();
+                    $("#cardIcon").hide();
                 } else if (cardType === 'visa') {
                     $("#cardType").addClass("visa");
                     $("#cardType").removeClass("mastercard");
+                    $("#cardType").show();
+                    $("#cardIcon").hide();
                 }
             }
         });
@@ -57,7 +63,8 @@
     <div class="paymentjs-form-number-input">
         <div class="paymentjs-form-input-box cardnumber">
             <div class="paymentjs-card">
-                <div class="paymentjs-type" id="cardType">
+                <div class="paymentjs-type" id="cardType"></div>
+                <div class="paymentjs-cardIcon" id="cardIcon">
                     <i class="fal fa-credit-card"></i>
                 </div>
             </div>
@@ -92,8 +99,8 @@
         </div>
     </div>
     <div class="paymentjs-available-cards">
-        <div class="paymentjs-type visa" id="cardType"></div>
-        <div class="paymentjs-type mastercard" id="cardType"></div>
+        <div class="paymentjs-type visa"></div>
+        <div class="paymentjs-type mastercard"></div>
     </div>
 </div>
 

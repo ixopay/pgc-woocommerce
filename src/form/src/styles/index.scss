@@ -7,19 +7,11 @@ $border-color: #969391;
 $border-radius: 4px;
 $label-color: #000;
 
-html, body {
-    height: 100%;
-    width: 100%;
-    font-size: 100%;
+.paymentjs-form {
     font-family: 'Roboto', sans-serif;
     font-weight: lighter;
-}
-
-.paymentjs-form {
-    border: 1px solid #ccc;
-    height: 300px;
-    padding: 20px;
-    margin: 20px;
+    font-size: 16px;
+    line-height: 18.4px;
 
     .paymentjs-form-input-box {
         width: 490px;
@@ -62,43 +54,41 @@ html, body {
         }
 
         .paymentjs-card {
-            width: 42px;
-            height: 28px;
-            margin-top: 14px;
-            margin-left: 10px;
+            height: 50px;
+            width: 52px;
+            padding-left: 10px;
+
+            .paymentjs-type {
+                display: none;
+                margin-top: 15px; 
+            }
+
+            .paymentjs-cardIcon {
+                margin-top: 15px;
+                margin-left: 3px;
+
+                i {
+                    font-size: 18px;
+                }
+            }
         }
     }
-
-    
 
     .paymentjs-type {
         width: 37px;
         height: 22px;
         padding-top: 2px;
-
-        i {
-            margin-left: 3px;
-            font-size: 18px;
-        }
         
         &.visa {
             background: url(~payment-icons/min/flat/visa.svg);
             background-size: 33px 20px;
             background-repeat: no-repeat;
-
-            i {
-                visibility: hidden
-            }
         }
 
         &.mastercard {
             background: url(~payment-icons/min/flat/mastercard.svg);
             background-size: 33px 20px;
             background-repeat: no-repeat;
-
-            i {
-                visibility: hidden
-            }
         }
     }
 
@@ -182,6 +172,7 @@ html, body {
                 padding-top: 10px;
                 padding-left: 2px;
                 color: $label-color;
+                line-height: 13.8px;
             }
     
             .paymentjs-form-input-wrapper {

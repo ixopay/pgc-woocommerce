@@ -48,6 +48,8 @@
         var $seamlessExpiryInput = $('#payment_gateway_cloud_seamless_expiry', $seamlessForm);
         var $seamlessCardNumberInput = $('#payment_gateway_cloud_seamless_card_number', $seamlessForm);
         var $seamlessCvvInput = $('#payment_gateway_cloud_seamless_cvv', $seamlessForm);
+        var $cardType = $('#cardType', $seamlessForm);
+        var $cardIcon = $('#cardIcon', $seamlessForm);
 
         var init = function (integrationKey, invalidCallback, validCallback) {
             _invalidCallback = invalidCallback;
@@ -58,29 +60,43 @@
             } else {
                 return;
             }
-            
-            $seamlessCardNumberInput.height($seamlessCardHolderInput.css('height'));
-            $seamlessCvvInput.height($seamlessCardHolderInput.css('height'));
 
-            $seamlessForm.show();
-            var style = {
-                'border': $seamlessCardHolderInput.css('border'),
-                'border-radius': $seamlessCardHolderInput.css('border-radius'),
-                'height': $seamlessCardHolderInput.css('height'),
-                'padding': $seamlessCardHolderInput.css('padding'),
-                'font-size': $seamlessCardHolderInput.css('font-size'),
-                'font-weight': $seamlessCardHolderInput.css('font-weight'),
-                'font-family': $seamlessCardHolderInput.css('font-family'),
-                'letter-spacing': '0.1px',
-                'word-spacing': '1.7px',
-                'color': $seamlessCardHolderInput.css('color'),
-                'background': $seamlessCardHolderInput.css('background'),
-            };
             payment = new PaymentJs("1.2");
             payment.init(integrationKey, $seamlessCardNumberInput.prop('id'), $seamlessCvvInput.prop('id'), function (payment) {
-                payment.setNumberStyle(style);
-                payment.setCvvStyle(style);
-                payment.numberOn('input', function (data) {
+                payment.setNumberStyle({ 
+                    'border': 'none', 
+                    'width': '251px',
+                    'height': '28px',
+                    'outline': 'none',
+                    'font-size': '16px'
+                });
+                payment.setCvvStyle({ 
+                    'border': 'none', 
+                    'width': '185px',
+                    'height': '29px',
+                    'outline': 'none',
+                    'font-size': '16px'
+                });
+                payment.numberOn('input', function(data) {
+                    if (cardType !== data.cardType) {
+                        cardType = data.cardType;
+                        if (cardType === null) {
+                            $cardType.removeClass("visa");
+                            $cardType.removeClass("mastercard");
+                            $cardType.hide();
+                            $cardIcon.show();
+                        } else if (cardType === 'mastercard') {
+                            $cardType.addClass("mastercard");
+                            $cardType.removeClass("visa");
+                            $cardType.show();
+                            $cardIcon.hide();
+                        } else if (cardType === 'visa') {
+                            $cardType.addClass("visa");
+                            $cardType.removeClass("mastercard");
+                            $cardType.show();
+                            $cardIcon.hide();
+                        }
+                    }
                     validNumber = data.validNumber;
                     validate();
                 });
@@ -94,16 +110,16 @@
 
         var validate = function () {
             $paymentGatewayCloudErrors.html('');
-            $('.form-group', $seamlessForm).removeClass('has-error');
-            $seamlessCardNumberInput.closest('.form-group').toggleClass('has-error', !validNumber);
-            $seamlessCvvInput.closest('.form-group').toggleClass('has-error', !validCvv);
+            //$('.form-group', $seamlessForm).removeClass('has-error');
+            //$seamlessCardNumberInput.closest('.form-group').toggleClass('has-error', !validNumber);
+            //$seamlessCvvInput.closest('.form-group').toggleClass('has-error', !validCvv);
             validDetails = true;
             if (!$seamlessCardHolderInput.val().length) {
-                $seamlessCardHolderInput.closest('.form-group').addClass('has-error');
+                //$seamlessCardHolderInput.closest('.form-group').addClass('has-error');
                 validDetails = false;
             }
             if (!$seamlessExpiryInput.val().length) {
-                $seamlessExpiryInput.closest('.form-group').addClass('has-error');
+                //$seamlessExpiryInput.closest('.form-group').addClass('has-error');
                 validDetails = false;
             }
             if (validNumber && validCvv && validDetails) {
