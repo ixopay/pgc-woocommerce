@@ -6,6 +6,33 @@ $border-color: #969391;
 $border-radius: 4px;
 $label-color: #000;
 
+#order_review {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 23px;
+}
+
+#payment {
+    margin-left: 0;
+}
+
+.wc_payment_method {
+    padding-right: 0;
+}
+
+.payment_box {
+    border-radius: 4px;
+    padding: 30px 25px;
+    background-color: #fff;
+
+    &.payment_method_payment_gateway_cloud_creditcard {
+        padding: 8px;
+        width: 555px;
+        background-color: #eee;
+    }
+}
+
 .paymentjs-form {
     font-family: 'Roboto', sans-serif;
     font-weight: lighter;
@@ -13,6 +40,14 @@ $label-color: #000;
     line-height: 18.4px;
 
     * { box-sizing: border-box; }
+
+    iframe {
+        width: 100% !important;
+    }
+
+    input {
+        width: 180px;
+    }
 
     .paymentjs-form-input-box {
         width: 490px;
