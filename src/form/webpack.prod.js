@@ -30,29 +30,18 @@ module.exports = {
                 test: /\.(scss|css|sass)$/,
                 use: [
                     {
-                        loader: "style-loader",
-                        options: {
-                            sourceMap: true
-                        }
+                        loader: "style-loader"
                     },
                     {
-                        loader: 'css-loader',
-                        options: {
-                            sourceMap: true
-                        }
+                        loader: 'css-loader'
                     },
                     {
-                        loader: 'postcss-loader',
-                        options: {
-                            sourceMap: true
-                        }
+                        loader: 'postcss-loader'
                     },
                     {
                         loader: 'sass-loader',
                         options: {
-                            outputStyle: 'expanded',
-                            sourceMap: true,
-                            sourceMapContents: true
+                            outputStyle: 'compressed'
                         }
                     }
                 ]
