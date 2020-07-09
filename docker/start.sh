@@ -42,7 +42,7 @@ if [ ! -f "/opt/bitnami/setup_complete" ]; then
             git clone $REPOSITORY /tmp/paymentgatewaycloud || error_exit "Could not clone Github repo"
             cd /tmp/paymentgatewaycloud
             git checkout $BRANCH || error_exit "Could not checkout Branch ${BRANCH}"
-            git pull origin $BRANCH || error_exit "Could not pull Branch ${BRANCH}"
+            #git pull origin $BRANCH || error_exit "Could not pull Branch ${BRANCH}"
         else
             echo -e "Using Development Source!"
             cp -rf /source /tmp/paymentgatewaycloud
