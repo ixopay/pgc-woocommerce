@@ -1,0 +1,18 @@
+#order_review {
+    max-width: 616px !important;
+    margin: 0px auto !important;
+}
+
+div.payment_method_payment_gateway_cloud_creditcard {
+    padding: 0 !important;
+    background: #fff !important;
+}
+
+li.payment_method_payment_gateway_cloud_creditcard > label {
+    padding: 0 35px !important;
+} 
+
+.payment_box {
+    padding: 5px 25px !important;
+    background-color: #fff !important;
+}

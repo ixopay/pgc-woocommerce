@@ -37,6 +37,7 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
         add_action('wp_enqueue_scripts', function () {
             wp_register_style('googleFonts', 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');
+            wp_register_style('customCss', plugins_url('/paymentgatewaycloud/assets/css/custom.css'));
             wp_register_script('payment_js', $this->get_option('apiHost') . 'js/integrated/payment.min.js', [], PAYMENT_GATEWAY_CLOUD_EXTENSION_VERSION, false);
             wp_register_script('payment_gateway_cloud_js_' . $this->id, plugins_url('/paymentgatewaycloud/assets/js/payment-gateway-cloud.js'), [], PAYMENT_GATEWAY_CLOUD_EXTENSION_VERSION, false);
             wp_register_script('paymentjs_form', plugins_url('/paymentgatewaycloud/assets/js/paymentjs-form.js'), [], PAYMENT_GATEWAY_CLOUD_EXTENSION_VERSION, false);
@@ -383,12 +384,13 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
     public function payment_fields()
     {
         wp_enqueue_style('googleFonts');
+        wp_enqueue_style('customCss');
         wp_enqueue_script('payment_js');
         wp_enqueue_script('payment_gateway_cloud_js_' . $this->id);
         wp_enqueue_script('paymentjs_form');
 
         echo '<script>window.integrationKey="' . $this->get_option('integrationKey') . '";</script>
-        <div class="payment_box" style="padding: 23px 25px; background-color: #fff; border-radius: 3px;">
+        <div class="payment_box">
             <div id="payment_gateway_cloud_errors"></div>
             <div id="payment_gateway_cloud_seamless" class="paymentjs-form" style="display: none;">
                 <input type="hidden" id="payment_gateway_cloud_token" name="token">
