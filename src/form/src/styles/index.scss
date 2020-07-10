@@ -186,6 +186,7 @@ $label-color: #000;
                 padding-left: 2px;
                 color: $label-color;
                 line-height: 13.8px;
+                z-index: 2;
             }
     
             .paymentjs-form-input-wrapper {
