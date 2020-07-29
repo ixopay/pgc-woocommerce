@@ -8,7 +8,7 @@
 
     var init = function() {
         if (integrationKey && !initialized) {
-            $paymentFormSubmitButton.prop("disabled", true);
+            $paymentFormSubmitButton.prop("disabled", false);
             paymentGatewayCloudSeamless.init(
                 integrationKey,
                 function () {
@@ -94,23 +94,23 @@
 
         var validate = function () {
             $paymentGatewayCloudErrors.html('');
-            $('.form-group', $seamlessForm).removeClass('has-error');
-            $seamlessCardNumberInput.closest('.form-group').toggleClass('has-error', !validNumber);
-            $seamlessCvvInput.closest('.form-group').toggleClass('has-error', !validCvv);
+            //$('.form-row', $seamlessForm).removeClass('woocommerce-invalid');
+            //$seamlessCardNumberInput.closest('.form-row').toggleClass('woocommerce-invalid', !validNumber);
+            //$seamlessCvvInput.closest('.form-row').toggleClass('woocommerce-invalid', !validCvv);
             validDetails = true;
             if (!$seamlessCardHolderInput.val().length) {
-                $seamlessCardHolderInput.closest('.form-group').addClass('has-error');
+                //$seamlessCardHolderInput.closest('.form-row').addClass('woocommerce-invalid');
                 validDetails = false;
             }
             if (!$seamlessExpiryInput.val().length) {
-                $seamlessExpiryInput.closest('.form-group').addClass('has-error');
+                //$seamlessExpiryInput.closest('.form-row').addClass('woocommerce-invalid');
                 validDetails = false;
             }
             if (validNumber && validCvv && validDetails) {
                 _validCallback.call();
                 return;
             }
-            _invalidCallback.call();
+            // _invalidCallback.call();
         };
 
         var reset = function () {

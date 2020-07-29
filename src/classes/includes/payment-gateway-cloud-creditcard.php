@@ -386,7 +386,7 @@ class WC_PaymentGatewayCloud_CreditCard extends WC_Payment_Gateway
         wp_enqueue_script('payment_js');
         wp_enqueue_script('payment_gateway_cloud_js_' . $this->id);
 
-        echo '<script>window.integrationKey="' . $this->get_option('integrationKey') . '";</script>
+        echo '<script>window.integrationKey="' . $this->get_option('integrationKey') . '";</script><style>.payment_box{iframe{width:100%}}</style>
         <div id="payment_gateway_cloud_errors"></div>
         <div class="payment_box" style="padding: 25px; background-color: #fff; border-radius: 3px; width: 450px; min-height: 330px">
             <div id="payment_gateway_cloud_seamless">
