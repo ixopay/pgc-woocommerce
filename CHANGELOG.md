@@ -1,6 +1,9 @@
 # Release Notes
 
 ## Unreleased
+## v1.7.4 (2020-07-29)
+### Fixed
+- Payment detail validation for seamless flow 
 
 ## v1.7.3 (2020-05-07)
 ### Added
