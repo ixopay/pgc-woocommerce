@@ -133,10 +133,6 @@ if [ ! -f "/opt/bitnami/setup_complete" ]; then
     cp -rfLH /bitnami/wordpress/* /opt/bitnami/wordpress/
     touch /opt/bitnami/wordpress/.initialized
 
-    echo -e "Setup Complete! You can access the instance at: http://${URL}/"
-
-    touch /opt/bitnami/setup_complete
-
     if [ $PRECONFIGURE ]; then
         echo -e "Prepare for Pre-Configured build"
         exit 0
@@ -147,6 +143,8 @@ if [ ! -f "/opt/bitnami/setup_complete" ]; then
         chown -R bitnami /opt/bitnami
         chown -R daemon /opt/bitnami/wordpress
         wp --allow-root cache flush
+        echo -e "Setup Complete! You can access the instance at: http://${URL}/"
+        touch /opt/bitnami/setup_complete
         
         # Keep script Running
         trap : TERM INT; (while true; do sleep 1m; done) & wait
