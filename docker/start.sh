@@ -140,8 +140,7 @@ if [ ! -f "/opt/bitnami/setup_complete" ]; then
         rm -rf /bitnami/wordpress
         ln -s /opt/bitnami/wordpress /bitnami/wordpress
         chmod -R 777 /opt/bitnami/wordpress/wp-content/uploads
-        chown -R bitnami /opt/bitnami
-        chown -R daemon /opt/bitnami/wordpress
+        chown -R daemon /opt/bitnami
         wp --allow-root cache flush
         echo -e "Setup Complete! You can access the instance at: http://${URL}/"
         touch /opt/bitnami/setup_complete
@@ -154,8 +153,7 @@ else
     rm -rf /bitnami/wordpress
     ln -s /opt/bitnami/wordpress /bitnami/wordpress
     chmod -R 777 /opt/bitnami/wordpress/wp-content/uploads
-    chown -R bitnami /opt/bitnami
-    chown -R daemon /opt/bitnami/wordpress
+    chown -R daemon /opt/bitnami
     wp --allow-root cache flush
     SHOP_PAGE_ID=$(mysql -B -h mariadb -u root bitnami_wordpress -e "select ID from wp_posts where post_title = 'Shop';" | tail -n1)
     wp --allow-root option set page_on_front "${SHOP_PAGE_ID}"
