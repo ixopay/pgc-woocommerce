@@ -135,6 +135,7 @@ if [ ! -f "/opt/bitnami/setup_complete" ]; then
 
     if [ $PRECONFIGURE ]; then
         echo -e "Prepare for Pre-Configured build"
+        touch /opt/bitnami/setup_complete
         exit 0
     else
         rm -rf /bitnami/wordpress
