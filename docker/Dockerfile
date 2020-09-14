@@ -1,4 +1,5 @@
-FROM bitnami/wordpress:5.5.1-debian-10-r7
+ARG UPSTREAM_TAG=${WORDPRESS_TAG:-latest}  
+FROM bitnami/wordpress:${UPSTREAM_TAG}
 
 EXPOSE 8080
 EXPOSE 8443
