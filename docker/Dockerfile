@@ -1,4 +1,4 @@
-ARG UPSTREAM_TAG=${WORDPRESS_TAG:-latest}  
+ARG UPSTREAM_TAG=${UPSTREAM_TAG:-latest}  
 FROM bitnami/wordpress:${UPSTREAM_TAG}
 
 EXPOSE 8080
