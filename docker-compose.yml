@@ -1,57 +1,40 @@
-version: '3'
+version: '2'
 services:
   mariadb:
-    image: 'bitnami/mariadb:10.3'
+    image: 'docker.io/bitnami/mariadb:10.3-debian-10'
+    volumes:
+      - 'mariadb_data:/bitnami/mariadb'
     environment:
       - MARIADB_USER=bn_wordpress
       - MARIADB_DATABASE=bitnami_wordpress
       - ALLOW_EMPTY_PASSWORD=yes
   wordpress:
-    build: 'docker/'
-    volumes:
-      - '.:/source'
-      - '${BUILD_ARTIFACT:-undefined}:/dist/paymentgatewaycloud.zip'
+    image: 'docker.io/bitnami/wordpress:5-debian-10'
     ports:
-      - '80:80'
-      - '443:443'
+      - '80:8080'
+      - '443:8443'
+    volumes:
+      - 'wordpress_data:/bitnami/wordpress'
+      - './docker/configure.sh:/docker-entrypoint-init.d/configure.sh:ro'
     depends_on:
       - mariadb
     environment:
-      - ALLOW_EMPTY_PASSWORD=${ALLOW_EMPTY_PASSWORD:-yes}
-      - WHITELABEL=${WHITELABEL:-}
-      - BITNAMI_APP_NAME=${BITNAMI_APP_NAME:-wordpress}
-      - BITNAMI_IMAGE_VERSION=${BITNAMI_IMAGE_VERSION:-5.3.0-debian-9-r17}
-      - MARIADB_HOST=${MARIADB_HOST:-mariadb}
-      - MARIADB_PORT_NUMBER=${MARIADB_PORT_NUMBER:-3306}
-      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
-      - MARIADB_ROOT_USER=${MARIADB_ROOT_USER:-root}
-      - MYSQL_CLIENT_CREATE_DATABASE_NAME=${MYSQL_CLIENT_CREATE_DATABASE_NAME}
-      - MYSQL_CLIENT_CREATE_DATABASE_PASSWORD=${MYSQL_CLIENT_CREATE_DATABASE_PASSWORD}
-      - MYSQL_CLIENT_CREATE_DATABASE_PRIVILEGES=${MYSQL_CLIENT_CREATE_DATABASE_PRIVILEGES:-ALL}
-      - MYSQL_CLIENT_CREATE_DATABASE_USER=${MYSQL_CLIENT_CREATE_DATABASE_USER}
-      - SMTP_HOST=${SMTP_HOST}
-      - SMTP_PASSWORD=${SMTP_PASSWORD}
-      - SMTP_PORT=${SMTP_PORT}
-      - SMTP_PROTOCOL=${SMTP_PROTOCOL}
-      - SMTP_USER=${SMTP_USER}
-      - SMTP_USERNAME=${SMTP_USERNAME}
+      - MARIADB_HOST=mariadb
+      - MARIADB_PORT_NUMBER=3306
+      - WORDPRESS_DATABASE_USER=bn_wordpress
+      - WORDPRESS_DATABASE_NAME=bitnami_wordpress
+      - ALLOW_EMPTY_PASSWORD=yes
+      - WHITELABEL=${WHITELABEL:-AwesomePay}
       - WORDPRESS_BLOG_NAME=${WORDPRESS_BLOG_NAME:-Demo Shop}
-      - WORDPRESS_DATABASE_NAME=${WORDPRESS_DATABASE_NAME:-bitnami_wordpress}
-      - WORDPRESS_DATABASE_PASSWORD=${WORDPRESS_DATABASE_PASSWORD}
-      - WORDPRESS_DATABASE_SSL_CA_FILE=${WORDPRESS_DATABASE_SSL_CA_FILE}
-      - WORDPRESS_DATABASE_USER=${WORDPRESS_DATABASE_USER:-bn_wordpress}
       - WORDPRESS_EMAIL=${WORDPRESS_EMAIL:-user@example.com}
-      - WORDPRESS_FIRST_NAME=${WORDPRESS_FIRST_NAME:-FirstName}
       - WORDPRESS_HTACCESS_OVERRIDE_NONE=${WORDPRESS_HTACCESS_OVERRIDE_NONE:-yes}
-      - WORDPRESS_HTTPS_PORT=${WORDPRESS_HTTPS_PORT:-443}
-      - WORDPRESS_HTTP_PORT=${WORDPRESS_HTTP_PORT:-80}
-      - WORDPRESS_LAST_NAME=${WORDPRESS_LAST_NAME:-LastName}
       - WORDPRESS_PASSWORD=${WORDPRESS_PASSWORD:-bitnami}
       - WORDPRESS_SCHEME=${WORDPRESS_SCHEME:-http}
-      - WORDPRESS_SKIP_INSTALL=${WORDPRESS_SKIP_INSTALL:-no}
-      - WORDPRESS_TABLE_PREFIX=${WORDPRESS_TABLE_PREFIX:-wp_}
       - WORDPRESS_USERNAME=${WORDPRESS_USERNAME:-user}
-      - PRECONFIGURE=${PRECONFIGURE}
+      - URL=${URL:-localhost}
+      - REPOSITORY=${REPOSITORY:-https://github.com/user/repo}
+      - BRANCH=${BRANCH:-master}
+      - HTTPS=${HTTPS:-false}
       - DEMO_CUSTOMER_USER=${DEMO_CUSTOMER_USER:-customer}
       - DEMO_CUSTOMER_PASSWORD=${DEMO_CUSTOMER_PASSWORD:-customer}
       - SHOP_ADDRESS=${SHOP_ADDRESS:-Shoppingstreet 123}
@@ -83,10 +66,8 @@ services:
       - SHOP_PGC_CC_TYPE_MASTERCARD=${SHOP_PGC_CC_TYPE_MASTERCARD:-debit}
       - SHOP_PGC_CC_TYPE_UNIONPAY=${SHOP_PGC_CC_TYPE_UNIONPAY:-debit}
       - SHOP_PGC_CC_TYPE_VISA=${SHOP_PGC_CC_TYPE_VISA:-debit}
-      - URL=${URL:-localhost}
-      - REPOSITORY=${REPOSITORY:-https://github.com/user/repo}
-      - BRANCH=${BRANCH:-master}
-      - BUILD_ARTIFACT=${BUILD_ARTIFACT:-undefined}
-
 volumes:
-  undefined:
+  mariadb_data:
+    driver: local
+  wordpress_data:
+    driver: local
